@@ -1,4 +1,4 @@
-package com.example.wgutermtracker;
+package ck.ckeller.wgutermtracker;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package com.example.wgutermtracker;
+package ck.ckeller.wgutermtracker;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,6 +19,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String TERM_END = "termEnd";
     public static final String TERM_ACTIVE = "termActive";
     public static final String TERM_CREATED = "termCreated";
+    public static final String[] TERMS_COLUMNS =
+            {TERM_ID, TERM_NAME, TERM_START, TERM_END, TERM_ACTIVE, TERM_CREATED};
 
     // Courses table
     public static final String TABLE_COURSES = "courses";
@@ -33,6 +35,9 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String COURSE_MENTOR_PHONE = "courseMentorPhone";
     public static final String COURSE_MENTOR_EMAIL = "courseMentorEmail";
     public static final String COURSE_CREATED = "courseCreated";
+    public static final String[] COURSES_COLUMNS =
+            {COURSE_ID, COURSE_TERM_ID, COURSE_NAME, COURSE_DESC, COURSE_STATUS, COURSE_START,
+            COURSE_MENTOR, COURSE_MENTOR_EMAIL, COURSE_CREATED};
 
     // Course Notes table
     public static final String TABLE_COURSE_NOTES = "courseNotes";
@@ -40,6 +45,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String COURSE_NOTE_COURSE_ID = "courseNoteId";
     public static final String COURSE_NOTE_TEXT = "courseNoteText";
     public static final String COURSE_NOTE_CREATED = "courseNoteCreated";
+    public static final String[] COURSE_NOTES_COLUMNS =
+            {COURSE_NOTE_ID, COURSE_NOTE_COURSE_ID, COURSE_NOTE_TEXT, COURSE_NOTE_CREATED};
 
     // Assessments table
     public static final String TABLE_ASSESSMENTS = "assessments";
@@ -49,6 +56,9 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String ASSESSMENT_DESC = "assessmentDesc";
     public static final String ASSESSMENT_DATETIME = "assessmentDateTime";
     public static final String ASSESSMENT_CREATED = "assessmentCreated";
+    public static final String[] ASSESSMENTS_COLUMNS =
+            {ASSESSMENT_ID, ASSESSMENT_COURSE_ID, ASSESSMENT_NAME, ASSESSMENT_DESC, ASSESSMENT_DATETIME,
+            ASSESSMENT_CREATED};
 
     // Create table SQL Statements
     // Terms

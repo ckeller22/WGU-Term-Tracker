@@ -1,4 +1,4 @@
-package com.example.wgutermtracker;
+package ck.ckeller.wgutermtracker;
 
 import org.junit.Test;
 
