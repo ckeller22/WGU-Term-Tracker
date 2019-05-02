@@ -1,18 +1,17 @@
 package ck.ckeller.wgutermtracker;
 
-import android.content.ContentValues;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int TERM_VIEWER_ACTIVITY_CODE = 11111;
+    private static final int TERM_LIST_ACTIVITY_CODE = 22222;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,19 +20,14 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+    }
 
-        ContentValues values = new ContentValues();
-        values.put(DBOpenHelper.TERM_NAME, "Testing term");
-        Uri termUri = getContentResolver().insert(DataProvider.TERMS_URI, values);
-        Log.d("MainActivity", "inserted note" + termUri.getLastPathSegment());
+    public void openCurrentTerm(View view) {
+        Intent intent = new Intent(this, TermViewerActivity.class);
+        startActivityForResult(intent, TERM_VIEWER_ACTIVITY_CODE);
+    }
+
+    public void openAllTerms(View view) {
 
     }
 

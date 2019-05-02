@@ -10,7 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="ck.ckeller.wgutermtracker.MainActivity"
+            android:name=".TermViewerActivity"
+            android:label="@string/title_activity_term_viewer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,8 +25,8 @@
         </activity>
 
         <provider
-            android:authorities="ck.ckeller.wgutermtracker.dataprovider"
             android:name=".DataProvider"
+            android:authorities="ck.ckeller.wgutermtracker.dataprovider"
             android:exported="false" />
     </application>
 
