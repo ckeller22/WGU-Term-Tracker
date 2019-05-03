@@ -4,5 +4,9 @@
     <string name="current_term">Current Term</string>
     <string name="all_terms">All Terms</string>
     <string name="wgu_logo">WGU Logo</string>
-    <string name="title_activity_term_viewer">TermViewerActivity</string>
+    <string name="title_activity_term_viewer">Current Term</string>
+    <string name="title_activity_term_list">All Terms</string>
+    <string name="all_courses">All Courses</string>
+    <string name="courses">courses</string>
+    <string name="assessments">assessments</string>
 </resources>

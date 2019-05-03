@@ -49,6 +49,7 @@
             android:id="@+id/btn_current_term"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
@@ -60,14 +61,38 @@
             android:textColor="@color/colorText" />
 
         <Button
-            android:id="@+id/btn_all_terms"
+            android:id="@+id/btn_all_terms2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="0"
             android:background="@color/colorPrimaryLight"
+            android:onClick="openTermList"
             android:text="@string/all_terms"
             android:textColor="@color/colorText" />
+
+        <Button
+            android:id="@+id/btn_all_courses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="0"
+            android:background="@color/colorPrimaryLight"
+            android:onClick="openTermList"
+            android:text="@string/courses"
+            android:textColor="@color/colorText" />
+
+        <Button
+            android:id="@+id/btn_assessments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="0"
+            android:background="@color/colorPrimaryLight"
+            android:onClick="openTermList"
+            android:text="@string/assessments"
+            android:textColor="@color/colorText" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

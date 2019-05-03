@@ -1,6 +1,8 @@
 package ck.ckeller.wgutermtracker;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,8 +12,8 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int TERM_VIEWER_ACTIVITY_CODE = 11111;
-    private static final int TERM_LIST_ACTIVITY_CODE = 22222;
+    private static final int TERM_VIEWER_ACTIVITY_CODE = 1;
+    private static final int TERM_LIST_ACTIVITY_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +25,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openCurrentTerm(View view) {
-        Intent intent = new Intent(this, TermViewerActivity.class);
-        startActivityForResult(intent, TERM_VIEWER_ACTIVITY_CODE);
+        Cursor cursor = getContentResolver().query(DataProvider.TERMS_URI, null, DBOpenHelper.TERM_ACTIVE + "=1",
+                null, null);
+        while(cursor.moveToNext()) {
+            Intent intent = new Intent(this, TermViewerActivity.class);
+            long id = cursor.getLong(cursor.getColumnIndex(DBOpenHelper.TERM_ID));
+            Uri uri = Uri.parse(DataProvider.TERMS_URI + "/" + id);
+            intent.putExtra("term", uri);
+            startActivityForResult(intent, TERM_VIEWER_ACTIVITY_CODE);
+            return;
+        }
+
     }
 
-    public void openAllTerms(View view) {
-
+    public void openTermList(View view) {
+        Intent intent = new Intent(this, TermListActivity.class);
+        startActivityForResult(intent,TERM_LIST_ACTIVITY_CODE);
     }
 
     @Override
