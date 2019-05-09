@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public void openCurrentTerm(View view) {
         Cursor cursor = getContentResolver().query(DataProvider.TERMS_URI, null, DBOpenHelper.TERM_ACTIVE + "=1",
                 null, null);
-        while(cursor.moveToNext()) {
+        if (cursor.moveToNext()) {
             Intent intent = new Intent(this, TermViewerActivity.class);
             long id = cursor.getLong(cursor.getColumnIndex(DBOpenHelper.TERM_ID));
             Uri uri = Uri.parse(DataProvider.TERMS_URI + "/" + id);

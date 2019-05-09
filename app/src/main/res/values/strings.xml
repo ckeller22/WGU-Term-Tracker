@@ -9,4 +9,7 @@
     <string name="all_courses">All Courses</string>
     <string name="courses">courses</string>
     <string name="assessments">assessments</string>
+    <string name="start_date">Start Date:</string>
+    <string name="end_date">End Date:</string>
+    <string name="title_activity_course_list">Course List</string>
 </resources>
