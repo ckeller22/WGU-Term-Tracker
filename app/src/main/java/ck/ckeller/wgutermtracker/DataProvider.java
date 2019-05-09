@@ -34,6 +34,12 @@ public class DataProvider extends ContentProvider {
     private static final int ASSESSMENTS = 7;
     private static final int ASSESSMENTS_ID = 8;
 
+    // Constant to identify content types
+    public static final String TERM_CONTENT_TYPE = "term";
+    public static final String COURSE_CONTENT_TYPE = "course";
+    public static final String COURSE_NOTE_CONTENT_TYPE = "courseNote";
+    public static final String ASSESSMENT_CONTENT_TYPE = "assessment";
+
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {

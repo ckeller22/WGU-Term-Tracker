@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, TermViewerActivity.class);
             long id = cursor.getLong(cursor.getColumnIndex(DBOpenHelper.TERM_ID));
             Uri uri = Uri.parse(DataProvider.TERMS_URI + "/" + id);
-            intent.putExtra("term", uri);
+            intent.putExtra(DataProvider.TERM_CONTENT_TYPE, uri);
             startActivityForResult(intent, TERM_VIEWER_ACTIVITY_CODE);
             return;
         }
