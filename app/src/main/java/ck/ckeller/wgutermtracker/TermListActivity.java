@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +20,7 @@ import android.widget.SimpleCursorAdapter;
 public class TermListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static int TERM_VIEWER_ACTIVITY_CODE = 1;
+    public static int TERM_EDITOR_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +33,8 @@ public class TermListActivity extends AppCompatActivity implements LoaderManager
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(TermListActivity.this, TermEditiorActivity.class);
+                startActivityForResult(intent, TERM_EDITOR_CODE);
             }
         });
 

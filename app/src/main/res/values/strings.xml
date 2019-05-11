@@ -12,4 +12,5 @@
     <string name="start_date">Start Date:</string>
     <string name="end_date">End Date:</string>
     <string name="title_activity_course_list">Course List</string>
+    <string name="title_activity_term_editior">Term Editor</string>
 </resources>

@@ -26,7 +26,6 @@ public class DataManager {
 
     }
 
-
     // Courses
 
     // Course notes

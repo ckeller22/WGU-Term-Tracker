@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".TermViewerActivity">
+
+    <item
+        android:id="@+id/edit_term"
+        android:title="Edit Term"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/mark_active"
+        android:title="Make term active"
+        app:showAsAction="never" />
+</menu>
