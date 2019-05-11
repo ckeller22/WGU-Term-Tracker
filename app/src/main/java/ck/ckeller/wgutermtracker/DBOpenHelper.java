@@ -36,7 +36,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String COURSE_MENTOR_EMAIL = "courseMentorEmail";
     public static final String COURSE_CREATED = "courseCreated";
     public static final String[] COURSES_COLUMNS =
-            {COURSE_ID, COURSE_TERM_ID, COURSE_NAME, COURSE_DESC, COURSE_STATUS, COURSE_START,
+            {COURSE_ID, COURSE_TERM_ID, COURSE_NAME, COURSE_DESC, COURSE_STATUS, COURSE_START, COURSE_END,
             COURSE_MENTOR, COURSE_MENTOR_EMAIL, COURSE_CREATED};
 
     // Course Notes table

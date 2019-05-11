@@ -11,11 +11,13 @@ public class DataManager {
                 DBOpenHelper.TERM_ID + " = " + termId , null, null, null);
         cursor.moveToFirst();
 
+        Integer tId = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.TERM_ID));
         String termName = cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_NAME));
         String termStart = cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_START));
         String termEnd = cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_END));
 
         Term t = new Term();
+        t.setTermId(tId);
         t.setTermName(termName);
         t.setTermStart(termStart);
         t.setTermEnd(termEnd);
@@ -23,6 +25,8 @@ public class DataManager {
         return t;
 
     }
+
+
     // Courses
 
     // Course notes
