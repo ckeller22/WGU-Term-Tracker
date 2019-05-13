@@ -11,6 +11,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
     private Term currentTerm;
 
     private int COURSE_LIST_ACTIVITY_CODE = 1;
+    private int TERM_EDITOR_ACTIVITY_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
         findTextViews();
 
     }
+
 
     public void openCourseList(View view) {
         Intent intent = new Intent(this, CourseListActivity.class);
@@ -63,6 +66,17 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_term_viewer, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit_term:
+                Intent intent = new Intent(this, TermEditiorActivity.class);
+                startActivityForResult(intent, TERM_EDITOR_ACTIVITY_CODE);
+            case R.id.mark_active:
+        }
         return true;
     }
     @NonNull
