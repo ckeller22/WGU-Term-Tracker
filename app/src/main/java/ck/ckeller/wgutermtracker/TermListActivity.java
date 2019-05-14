@@ -33,7 +33,7 @@ public class TermListActivity extends AppCompatActivity implements LoaderManager
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TermListActivity.this, TermEditiorActivity.class);
+                Intent intent = new Intent(TermListActivity.this, TermEditorActivity.class);
                 startActivityForResult(intent, TERM_EDITOR_CODE);
             }
         });

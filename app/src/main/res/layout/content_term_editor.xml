@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".TermEditiorActivity"
-    tools:showIn="@layout/activity_term_editior">
+    tools:context=".TermEditorActivity"
+    tools:showIn="@layout/activity_term_editor">
 
     <TextView
         android:id="@+id/tv_term_name"
@@ -65,6 +65,8 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="date"
+        android:clickable="true"
+        android:focusable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_term_name" />
@@ -77,6 +79,8 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="date"
+        android:clickable="true"
+        android:focusable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_term_start" />

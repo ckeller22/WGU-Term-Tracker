@@ -62,6 +62,8 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
 
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -73,12 +75,16 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit_term:
-                Intent intent = new Intent(this, TermEditiorActivity.class);
+                Intent intent = new Intent(this, TermEditorActivity.class);
+                Uri uri = Uri.parse(DataProvider.TERMS_URI + "/" + currentTerm.getTermId());
+                intent.putExtra(DataProvider.TERM_CONTENT_TYPE, uri);
                 startActivityForResult(intent, TERM_EDITOR_ACTIVITY_CODE);
             case R.id.mark_active:
         }
         return true;
     }
+
+
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
