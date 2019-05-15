@@ -10,6 +10,7 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,8 +18,10 @@ import java.util.Locale;
 
 public class TermEditorActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private String action;
     private Term currentTerm;
     private Uri currentTermUri;
+    private int termId;
 
     private EditText editName;
     private EditText editStart;
@@ -44,10 +47,10 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
         Uri uri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
 
         if (uri == null) {
-            intent.setAction(Intent.ACTION_INSERT);
+            action = Intent.ACTION_INSERT;
             setTitle(getString(R.string.new_term));
         } else {
-            intent.setAction(Intent.ACTION_EDIT);
+            action = Intent.ACTION_EDIT;
             setTitle(getString(R.string.edit_term));
             parseTerm();
             populateFields();
@@ -96,7 +99,7 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
         Intent intent = getIntent();
         currentTermUri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
 
-        long termId = Long.parseLong(currentTermUri.getLastPathSegment());
+        termId = Integer.parseInt(currentTermUri.getLastPathSegment());
         currentTerm = DataManager.getTerm(this, termId);
 
     }
@@ -105,6 +108,27 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
         editName.setText(currentTerm.getTermName());
         editStart.setText(currentTerm.getTermStart());
         editEnd.setText(currentTerm.getTermEnd());
+    }
+
+    public void getTermFromFields() {
+        currentTerm.setTermName(editName.getText().toString().trim());
+        currentTerm.setTermStart(editStart.getText().toString().trim());
+        currentTerm.setTermEnd(editEnd.getText().toString().trim());
+    }
+
+    public void saveTermChanges(View view) {
+        if (action.equals(Intent.ACTION_INSERT)) {
+            currentTerm = new Term();
+            getTermFromFields();
+            DataManager.insertTerm(this, currentTerm.getTermName(), currentTerm.getTermStart(), currentTerm.getTermEnd(), currentTerm.getActive());
+            Toast.makeText(this, "New Term added", Toast.LENGTH_SHORT).show();
+
+        } else if (action.equals(Intent.ACTION_EDIT)) {
+            getTermFromFields();
+            DataManager.updateTerm(this, termId, currentTerm.getTermName(), currentTerm.getTermStart(), currentTerm.getTermEnd(), currentTerm.getActive());
+            Toast.makeText(this, "Term updated", Toast.LENGTH_SHORT).show();
+        }
+        finish();
     }
 
     @Override

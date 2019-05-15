@@ -57,7 +57,7 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
         Intent intent = getIntent();
         currentTermUri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
 
-        long termId = Long.parseLong(currentTermUri.getLastPathSegment());
+        int termId = Integer.parseInt(currentTermUri.getLastPathSegment());
         currentTerm = DataManager.getTerm(this, termId);
 
     }

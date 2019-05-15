@@ -1,7 +1,9 @@
 package ck.ckeller.wgutermtracker;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 
 public class DataManager {
 
@@ -24,6 +26,28 @@ public class DataManager {
 
         return t;
 
+    }
+
+    public static Uri insertTerm(Context context, String termName, String termStart, String termEnd, int termActive) {
+        ContentValues values = new ContentValues();
+        values.put(DBOpenHelper.TERM_NAME, termName);
+        values.put(DBOpenHelper.TERM_START, termStart);
+        values.put(DBOpenHelper.TERM_END, termEnd);
+        values.put(DBOpenHelper.TERM_ACTIVE, termActive);
+
+        Uri termUri = context.getContentResolver().insert(DataProvider.TERMS_URI, values);
+        return termUri;
+    }
+
+    public static int updateTerm(Context context, int termId, String termName, String termStart, String termEnd, int termActive) {
+        ContentValues values = new ContentValues();
+        values.put(DBOpenHelper.TERM_NAME, termName);
+        values.put(DBOpenHelper.TERM_START, termStart);
+        values.put(DBOpenHelper.TERM_END, termEnd);
+        values.put(DBOpenHelper.TERM_ACTIVE, termActive);
+
+        termId = context.getContentResolver().update(DataProvider.TERMS_URI, values, DBOpenHelper.TERM_ID + " = " + termId, null);
+        return termId;
     }
 
     // Courses
