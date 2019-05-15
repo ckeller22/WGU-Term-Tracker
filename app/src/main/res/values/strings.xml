@@ -15,4 +15,6 @@
     <string name="title_activity_term_editior">Term Editor</string>
     <string name="term_name">Term Name:</string>
     <string name="save">Save</string>
+    <string name="new_term">New Term</string>
+    <string name="edit_term">Edit Term</string>
 </resources>

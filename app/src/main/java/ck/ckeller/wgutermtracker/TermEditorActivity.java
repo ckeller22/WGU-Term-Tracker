@@ -37,15 +37,23 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Intent intent = getIntent();
-        Uri uri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
-        if (uri == null) {
-
-        } else {
-            
-        }
         findViews();
         initDatePickers();
+
+        Intent intent = getIntent();
+        Uri uri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
+
+        if (uri == null) {
+            intent.setAction(Intent.ACTION_INSERT);
+            setTitle(getString(R.string.new_term));
+        } else {
+            intent.setAction(Intent.ACTION_EDIT);
+            setTitle(getString(R.string.edit_term));
+            parseTerm();
+            populateFields();
+
+
+        }
 
     }
 
@@ -91,6 +99,12 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
         long termId = Long.parseLong(currentTermUri.getLastPathSegment());
         currentTerm = DataManager.getTerm(this, termId);
 
+    }
+
+    public void populateFields() {
+        editName.setText(currentTerm.getTermName());
+        editStart.setText(currentTerm.getTermStart());
+        editEnd.setText(currentTerm.getTermEnd());
     }
 
     @Override
