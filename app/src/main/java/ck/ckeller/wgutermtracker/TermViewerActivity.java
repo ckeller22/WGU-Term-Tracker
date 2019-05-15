@@ -14,9 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class TermViewerActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private int termId;
     private Uri currentTermUri;
     private Term currentTerm;
 
@@ -57,7 +61,7 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
         Intent intent = getIntent();
         currentTermUri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
 
-        int termId = Integer.parseInt(currentTermUri.getLastPathSegment());
+        termId = Integer.parseInt(currentTermUri.getLastPathSegment());
         currentTerm = DataManager.getTerm(this, termId);
 
     }
@@ -80,10 +84,27 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
                 intent.putExtra(DataProvider.TERM_CONTENT_TYPE, uri);
                 startActivityForResult(intent, TERM_EDITOR_ACTIVITY_CODE);
             case R.id.mark_active:
+                markTermAsActive();
+                Toast.makeText(this, currentTerm.getTermName() + " set as active term.", Toast.LENGTH_SHORT).show();
         }
         return true;
     }
 
+
+    public void markTermAsActive() {
+
+        Cursor cursor = getContentResolver().query(DataProvider.TERMS_URI, DBOpenHelper.TERMS_COLUMNS,
+                null, null, null, null);
+        ArrayList<Term> termList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            termList.add(DataManager.getTerm(this, cursor.getInt(cursor.getColumnIndex(DBOpenHelper.TERM_ID))));
+        }
+        for (Term term : termList) {
+            DataManager.updateTerm(this, term.getTermId(), term.getTermName(), term.getTermStart(), term.getTermEnd(), 0);
+        }
+
+        DataManager.updateTerm(this, currentTerm.getTermId(), currentTerm.getTermName(), currentTerm.getTermStart(), currentTerm.getTermEnd(), 1);
+    }
 
     @NonNull
     @Override
