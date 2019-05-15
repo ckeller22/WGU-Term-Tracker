@@ -10,6 +10,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,11 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
         setSupportActionBar(toolbar);
 
         parseTerm();
+        if (currentTerm.getActive() == 1) {
+            setTitle(getString(R.string.current_term));
+        } else {
+            setTitle(getString(R.string.term_info));
+        }
         findTextViews();
 
     }
@@ -79,13 +85,17 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit_term:
+                Log.d("case", "edit term pressed");
                 Intent intent = new Intent(this, TermEditorActivity.class);
                 Uri uri = Uri.parse(DataProvider.TERMS_URI + "/" + currentTerm.getTermId());
                 intent.putExtra(DataProvider.TERM_CONTENT_TYPE, uri);
                 startActivityForResult(intent, TERM_EDITOR_ACTIVITY_CODE);
+                break;
             case R.id.mark_active:
+                Log.d("case", "active pressed");
                 markTermAsActive();
-                Toast.makeText(this, currentTerm.getTermName() + " set as active term.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, currentTerm.getTermName() + getString(R.string.set_active), Toast.LENGTH_SHORT).show();
+                break;
         }
         return true;
     }

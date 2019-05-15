@@ -17,4 +17,8 @@
     <string name="save">Save</string>
     <string name="new_term">New Term</string>
     <string name="edit_term">Edit Term</string>
+    <string name="term_info">Term Info</string>
+    <string name="term_added">New term added.</string>
+    <string name="term_updated">Term updated.</string>
+    <string name="set_active">set as active term.</string>
 </resources>

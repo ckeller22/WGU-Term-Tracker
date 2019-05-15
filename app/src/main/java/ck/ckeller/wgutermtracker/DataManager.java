@@ -17,12 +17,14 @@ public class DataManager {
         String termName = cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_NAME));
         String termStart = cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_START));
         String termEnd = cursor.getString(cursor.getColumnIndex(DBOpenHelper.TERM_END));
+        Integer termActive = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.TERM_ACTIVE));
 
         Term t = new Term();
         t.setTermId(tId);
         t.setTermName(termName);
         t.setTermStart(termStart);
         t.setTermEnd(termEnd);
+        t.setActive(termActive);
 
         return t;
 

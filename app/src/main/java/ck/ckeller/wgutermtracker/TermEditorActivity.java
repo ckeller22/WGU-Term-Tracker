@@ -121,12 +121,12 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
             currentTerm = new Term();
             getTermFromFields();
             DataManager.insertTerm(this, currentTerm.getTermName(), currentTerm.getTermStart(), currentTerm.getTermEnd(), currentTerm.getActive());
-            Toast.makeText(this, "New Term added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.term_added), Toast.LENGTH_SHORT).show();
 
         } else if (action.equals(Intent.ACTION_EDIT)) {
             getTermFromFields();
             DataManager.updateTerm(this, termId, currentTerm.getTermName(), currentTerm.getTermStart(), currentTerm.getTermEnd(), currentTerm.getActive());
-            Toast.makeText(this, "Term updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.term_updated, Toast.LENGTH_SHORT).show();
         }
         finish();
     }
