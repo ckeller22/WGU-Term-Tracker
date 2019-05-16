@@ -30,8 +30,11 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
     private DatePickerDialog startDialog;
     private DatePickerDialog endDialog;
 
-    String myFormat = "MM/dd/yyyy";
-    SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+    private String message;
+    private String myFormat = "MM/dd/yyyy";
+    private SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+    private Calendar startDate;
+    private Calendar endDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,7 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, month, dayOfMonth);
+                startDate = newDate;
                 editStart.setText(sdf.format(newDate.getTime()));
 
         }
@@ -88,6 +92,7 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, month, dayOfMonth);
+                endDate = newDate;
                 editEnd.setText(sdf.format(newDate.getTime()));
 
             }
@@ -116,19 +121,50 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
         currentTerm.setTermEnd(editEnd.getText().toString().trim());
     }
 
+    public boolean validateFields() {
+        message = "";
+        boolean isValid;
+        if (editName.getText().length() == 0) {
+            message += "Please enter a term name.\n";
+        }
+        if (editStart.getText().length() == 0) {
+            message += "Please choose a valid start date.\n";
+        }
+        if (editEnd.getText().length() == 0) {
+            message += "Please choose a valid end date.\n";
+        }
+        if (endDate.before(startDate)) {
+            message += "Planned end date must not be before the start date.";
+        }
+        if (message.length() > 0) {
+            isValid = false;
+        } else {
+            isValid = true;
+        }
+        return isValid;
+    }
+
     public void saveTermChanges(View view) {
         if (action.equals(Intent.ACTION_INSERT)) {
-            currentTerm = new Term();
-            getTermFromFields();
-            DataManager.insertTerm(this, currentTerm.getTermName(), currentTerm.getTermStart(), currentTerm.getTermEnd(), currentTerm.getActive());
-            Toast.makeText(this, getString(R.string.term_added), Toast.LENGTH_SHORT).show();
-
+            if (validateFields() == true) {
+                currentTerm = new Term();
+                getTermFromFields();
+                DataManager.insertTerm(this, currentTerm.getTermName(), currentTerm.getTermStart(), currentTerm.getTermEnd(), currentTerm.getActive());
+                Toast.makeText(this, getString(R.string.term_added), Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
         } else if (action.equals(Intent.ACTION_EDIT)) {
-            getTermFromFields();
-            DataManager.updateTerm(this, termId, currentTerm.getTermName(), currentTerm.getTermStart(), currentTerm.getTermEnd(), currentTerm.getActive());
-            Toast.makeText(this, R.string.term_updated, Toast.LENGTH_SHORT).show();
+            if (validateFields() == true) {
+                getTermFromFields();
+                DataManager.updateTerm(this, termId, currentTerm.getTermName(), currentTerm.getTermStart(), currentTerm.getTermEnd(), currentTerm.getActive());
+                Toast.makeText(this, R.string.term_updated, Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
         }
-        finish();
     }
 
     @Override
