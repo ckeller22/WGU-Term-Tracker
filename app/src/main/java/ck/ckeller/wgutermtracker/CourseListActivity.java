@@ -12,8 +12,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -23,6 +23,8 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
     private Long termId;
     private Term currentTerm;
     private Uri currentTermUri;
+
+    private int COURSE_VIEWER_ACTIVITY_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +42,7 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
             }
         });
 
-        Intent intent = getIntent();
-        currentTermUri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
-
-        termId = Long.parseLong(currentTermUri.getLastPathSegment());
-        currentTerm = DataManager.getTerm(this, termId);
-        Log.d("myMessage", Integer.toString(currentTerm.getTermId()));
+        parseTerm();
         populateCourseList();
     }
 
@@ -58,7 +55,23 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
                 R.layout.course_list_item, cursor, from, to, 0);
         ListView list = findViewById(R.id.course_view);
         list.setAdapter(cursorAdapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CourseListActivity.this, CourseViewerActivity.class);
+                Uri uri = Uri.parse(DataProvider.COURSES_URI + "/" + id);
+                intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, uri);
+                startActivityForResult(intent, COURSE_VIEWER_ACTIVITY_CODE);
+            }
+        });
 
+    }
+
+    private void parseTerm() {
+        Intent intent = getIntent();
+        currentTermUri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
+        termId = Long.parseLong(currentTermUri.getLastPathSegment());
+        currentTerm = DataManager.getTerm(this, termId);
     }
 
     @NonNull

@@ -133,8 +133,10 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
         if (editEnd.getText().length() == 0) {
             message += "Please choose a valid end date.\n";
         }
-        if (endDate.before(startDate)) {
-            message += "Planned end date must not be before the start date.";
+        if (editStart.getText().length() > 0 && editEnd.getText().length() > 0) {
+            if (endDate.before(startDate)) {
+                message += "Planned end date must not be before the start date.\n";
+            }
         }
         if (message.length() > 0) {
             isValid = false;

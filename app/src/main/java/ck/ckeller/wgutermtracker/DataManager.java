@@ -53,6 +53,34 @@ public class DataManager {
     }
 
     // Courses
+    public static Course getCourse(Context context, long courseId) {
+        Cursor cursor = context.getContentResolver().query(DataProvider.COURSES_URI, DBOpenHelper.COURSES_COLUMNS,
+                DBOpenHelper.COURSE_ID + " = " + courseId , null, null, null);
+        cursor.moveToFirst();
+
+        Integer cId = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COURSE_ID));
+        String courseName = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_NAME));
+        String courseStart = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_START));
+        String courseEnd = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_END));
+        String courseMentor = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_MENTOR));
+        String courseMentorPhone = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_MENTOR_PHONE));
+        String courseMentorEmail = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_MENTOR_EMAIL));
+        String courseStatus = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_STATUS));
+        String courseDesc = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_DESC));
+
+        Course c = new Course();
+        c.setCourseId(cId);
+        c.setCourseName(courseName);
+        c.setCourseStart(courseStart);
+        c.setCourseEnd(courseEnd);
+        c.setCourseMentor(courseMentor);
+        c.setCourseMentorPhone(courseMentorPhone);
+        c.setCourseMentorEmail(courseMentorEmail);
+        c.setCourseStatus(courseStatus);
+        c.setCourseDesc(courseDesc);
+
+        return c;
+    }
 
     // Course notes
 

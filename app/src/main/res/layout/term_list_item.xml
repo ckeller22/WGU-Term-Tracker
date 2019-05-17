@@ -20,7 +20,8 @@
             android:id="@+id/tvTerm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="33" />
+            android:layout_weight="33"
+            android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
         <TextView
             android:id="@+id/tvStart"
