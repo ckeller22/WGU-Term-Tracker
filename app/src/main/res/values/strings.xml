@@ -22,4 +22,11 @@
     <string name="term_updated">Term updated.</string>
     <string name="set_active">set as active term.</string>
     <string name="title_activity_course_viewer">Course Info</string>
+    <string name="title_activity_course_editor">CourseEditor</string>
+    <string-array name="course_status_types">
+        <item>Planned</item>
+        <item>In Progress</item>
+        <item>Completed</item>
+        <item>Dropped</item>
+    </string-array>
 </resources>

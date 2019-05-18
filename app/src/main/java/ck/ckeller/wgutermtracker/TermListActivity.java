@@ -22,8 +22,8 @@ public class TermListActivity extends AppCompatActivity implements LoaderManager
 
     private CursorAdapter cursorAdapter;
 
-    public static int TERM_VIEWER_ACTIVITY_CODE = 1;
-    public static int TERM_EDITOR_CODE = 2;
+    public static final int TERM_VIEWER_ACTIVITY_CODE = 1;
+    public static final int TERM_EDITOR_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

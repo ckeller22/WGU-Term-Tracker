@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class CourseViewerActivity extends AppCompatActivity {
@@ -12,6 +14,8 @@ public class CourseViewerActivity extends AppCompatActivity {
     private Course currentCourse;
     private Uri currentCourseUri;
     private int courseId;
+
+    private static final int COURSE_EDITOR_ACTIVITY_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,26 @@ public class CourseViewerActivity extends AppCompatActivity {
         courseId = Integer.parseInt(currentCourseUri.getLastPathSegment());
         currentCourse = DataManager.getCourse(this, courseId);
 
-        //currentCourse = DataManager.getCourse(this, courseId);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_course_viewer, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit_course:
+                Intent intent = new Intent(CourseViewerActivity.this, CourseEditorActivity.class);
+                intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, currentCourseUri);
+                startActivityForResult(intent, COURSE_EDITOR_ACTIVITY_CODE);
+        }
+
+
+        return true;
+    }
+
 }

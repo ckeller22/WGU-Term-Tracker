@@ -23,9 +23,11 @@
         android:id="@+id/lbl_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Description:"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="208dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_mentor_email" />
 
     <TextView
         android:id="@+id/lbl_status"
@@ -58,12 +60,12 @@
         app:layout_constraintTop_toBottomOf="@+id/lbl_start_date" />
 
     <TextView
-        android:id="@+id/lbl_mentor"
+        android:id="@+id/lbl_course_mentor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Course Mentor:"
+        android:text="Mentor:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbl_end_date" />
 
@@ -75,7 +77,7 @@
         android:layout_marginTop="8dp"
         android:text="Mentor Phone:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_mentor" />
+        app:layout_constraintTop_toBottomOf="@+id/lbl_course_mentor" />
 
     <TextView
         android:id="@+id/lbl_mentor_email"
@@ -124,7 +126,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/lbl_mentor"
+        app:layout_constraintStart_toEndOf="@+id/lbl_course_mentor"
         app:layout_constraintTop_toBottomOf="@+id/tv_end" />
 
     <TextView

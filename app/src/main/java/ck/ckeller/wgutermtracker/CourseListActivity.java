@@ -24,7 +24,8 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
     private Term currentTerm;
     private Uri currentTermUri;
 
-    private int COURSE_VIEWER_ACTIVITY_CODE = 1;
+    private static final int COURSE_VIEWER_ACTIVITY_CODE = 1;
+    private static final int COURSE_EDITOR_ACTIVITY_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +38,10 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(CourseListActivity.this, CourseEditorActivity.class);
+                startActivityForResult(intent, COURSE_EDITOR_ACTIVITY_CODE);
             }
         });
-
         parseTerm();
         populateCourseList();
     }
@@ -73,6 +73,7 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
         termId = Long.parseLong(currentTermUri.getLastPathSegment());
         currentTerm = DataManager.getTerm(this, termId);
     }
+
 
     @NonNull
     @Override
