@@ -29,6 +29,7 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
     private Uri currentCourseUri;
     private Course currentCourse;
     private int courseId;
+    private Long courseTermId;
     private String action;
 
     private EditText editName;
@@ -60,6 +61,8 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
         initDatePickers();
 
         Intent intent = getIntent();
+        courseTermId = intent.getLongExtra(DataProvider.TERM_CONTENT_TYPE, 0);
+        Log.d("test", "value:" + courseTermId);
         Uri uri = intent.getParcelableExtra(DataProvider.COURSE_CONTENT_TYPE);
 
         if (uri == null) {
@@ -124,7 +127,6 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
         currentCourseUri = intent.getParcelableExtra(DataProvider.COURSE_CONTENT_TYPE);
         courseId = Integer.parseInt(currentCourseUri.getLastPathSegment());
         currentCourse = DataManager.getCourse(this, courseId);
-
     }
 
     public void initDatePickers() {
@@ -154,6 +156,29 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
+    }
+
+    public void saveCourseChanges(View view) {
+        Log.d("buttonTest", "buttonClicked");
+        if (action.equals(Intent.ACTION_INSERT)) {
+            currentCourse = new Course();
+            getCourseFromFields();
+            DataManager.insertCourse(this, currentCourse.getCourseName(), currentCourse.getCourseStart(), currentCourse.getCourseEnd(), currentCourse.getCourseMentor(),
+                    currentCourse.getCourseMentorPhone(), currentCourse.getCourseMentorEmail(), currentCourse.getCourseStatus(), currentCourse.getCourseDesc(), courseTermId);
+        } else if (action.equals(Intent.ACTION_EDIT)) {
+            getCourseFromFields();
+        }
+    }
+
+    private void getCourseFromFields() {
+        currentCourse.setCourseName(editName.getText().toString().trim());
+        currentCourse.setCourseStart(editStart.getText().toString().trim());
+        currentCourse.setCourseEnd(editEnd.getText().toString().trim());
+        currentCourse.setCourseMentor(editMentor.getText().toString().trim());
+        currentCourse.setCourseMentorPhone(editMentorPhone.getText().toString().trim());
+        currentCourse.setCourseMentorEmail(editMentorEmail.getText().toString().trim());
+        currentCourse.setCourseDesc(editDesc.getText().toString().trim());
+        currentCourse.setCourseStatus(spinnerStatus.getSelectedItem().toString());
     }
 
     @Override

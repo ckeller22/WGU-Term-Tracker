@@ -12,6 +12,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
@@ -39,9 +40,11 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CourseListActivity.this, CourseEditorActivity.class);
+                intent.putExtra(DataProvider.TERM_CONTENT_TYPE, termId);
                 startActivityForResult(intent, COURSE_EDITOR_ACTIVITY_CODE);
             }
         });
+
         parseTerm();
         populateCourseList();
     }
@@ -61,6 +64,7 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
                 Intent intent = new Intent(CourseListActivity.this, CourseViewerActivity.class);
                 Uri uri = Uri.parse(DataProvider.COURSES_URI + "/" + id);
                 intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, uri);
+                intent.putExtra("termId", termId);
                 startActivityForResult(intent, COURSE_VIEWER_ACTIVITY_CODE);
             }
         });

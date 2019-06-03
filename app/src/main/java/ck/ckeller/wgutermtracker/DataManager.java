@@ -82,6 +82,25 @@ public class DataManager {
         return c;
     }
 
+    public static Uri insertCourse(Context context, String courseName, String courseStart, String courseEnd, String courseMentor, String courseMentorPhone,
+                                   String courseMentorEmail, String courseStatus, String courseDesc, Long courseTermId) {
+        ContentValues values = new ContentValues();
+        values.put(DBOpenHelper.COURSE_NAME, courseName);
+        values.put(DBOpenHelper.COURSE_START, courseStart);
+        values.put(DBOpenHelper.COURSE_END, courseEnd);
+        values.put(DBOpenHelper.COURSE_MENTOR, courseMentor);
+        values.put(DBOpenHelper.COURSE_MENTOR_PHONE, courseMentorPhone);
+        values.put(DBOpenHelper.COURSE_MENTOR_EMAIL, courseMentorEmail);
+        values.put(DBOpenHelper.COURSE_STATUS, courseStatus);
+        values.put(DBOpenHelper.COURSE_DESC, courseDesc);
+        values.put(DBOpenHelper.COURSE_TERM_ID, courseTermId);
+
+        Uri courseUri = context.getContentResolver().insert(DataProvider.COURSES_URI, values);
+        return courseUri;
+
+
+    }
+
     // Course notes
 
     // Assessments
