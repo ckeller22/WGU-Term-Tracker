@@ -1,5 +1,7 @@
 package ck.ckeller.wgutermtracker;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,9 +10,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class CourseEditorActivity extends AppCompatActivity {
+public class CourseEditorActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Uri currentCourseUri;
     private Course currentCourse;
@@ -36,6 +40,9 @@ public class CourseEditorActivity extends AppCompatActivity {
     private EditText editDesc;
     private Spinner spinnerStatus;
 
+    private DatePickerDialog startDialog;
+    private DatePickerDialog endDialog;
+
     private String message;
     private String myFormat = "MM/dd/yyyy";
     private SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -50,6 +57,7 @@ public class CourseEditorActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         findViews();
+        initDatePickers();
 
         Intent intent = getIntent();
         Uri uri = intent.getParcelableExtra(DataProvider.COURSE_CONTENT_TYPE);
@@ -75,12 +83,28 @@ public class CourseEditorActivity extends AppCompatActivity {
         editMentorPhone.setText(currentCourse.getCourseMentorPhone());
         editMentorEmail.setText(currentCourse.getCourseMentorEmail());
         editDesc.setText(currentCourse.getCourseDesc());
+        switch (currentCourse.getCourseStatus()) {
+            case "Planned":
+                spinnerStatus.setSelection(0);
+                break;
+            case "In Progress":
+                spinnerStatus.setSelection(1);
+                break;
+            case "Completed":
+                spinnerStatus.setSelection(2);
+                break;
+            case "Dropped":
+                spinnerStatus.setSelection(3);
+                break;
+        }
     }
 
     private void findViews() {
         editName = findViewById(R.id.edit_text_course_name);
         editStart = findViewById(R.id.edit_text_course_start);
+        editStart.setInputType(InputType.TYPE_NULL);
         editEnd = findViewById(R.id.edit_text_course_end);
+        editEnd.setInputType(InputType.TYPE_NULL);
         editMentor = findViewById(R.id.edit_text_course_mentor);
         editMentorPhone = findViewById(R.id.edit_text_mentor_phone);
         editMentorEmail = findViewById(R.id.edit_text_mentor_email);
@@ -103,4 +127,42 @@ public class CourseEditorActivity extends AppCompatActivity {
 
     }
 
+    public void initDatePickers() {
+        editStart.setOnClickListener(this);
+        editEnd.setOnClickListener(this);
+
+        Calendar calendar = Calendar.getInstance();
+        startDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, month, dayOfMonth);
+                startDate = newDate;
+                editStart.setText(sdf.format(newDate.getTime()));
+
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        endDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, month, dayOfMonth);
+                endDate = newDate;
+                editEnd.setText(sdf.format(newDate.getTime()));
+
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == editStart) {
+            startDialog.show();
+        }
+        if (v == editEnd) {
+            endDialog.show();
+        }
+    }
 }
