@@ -3,6 +3,7 @@ package ck.ckeller.wgutermtracker;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,6 +15,7 @@ public class CourseViewerActivity extends AppCompatActivity {
     private Course currentCourse;
     private Uri currentCourseUri;
     private int courseId;
+    private int termId;
 
     private static final int COURSE_EDITOR_ACTIVITY_CODE = 1;
 
@@ -52,6 +54,7 @@ public class CourseViewerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         currentCourseUri = intent.getParcelableExtra(DataProvider.COURSE_CONTENT_TYPE);
         courseId = Integer.parseInt(currentCourseUri.getLastPathSegment());
+        termId = intent.getIntExtra(DataProvider.TERM_CONTENT_TYPE, 0);
         currentCourse = DataManager.getCourse(this, courseId);
 
     }
@@ -69,6 +72,7 @@ public class CourseViewerActivity extends AppCompatActivity {
             case R.id.edit_course:
                 Intent intent = new Intent(CourseViewerActivity.this, CourseEditorActivity.class);
                 intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, currentCourseUri);
+                intent.putExtra(DataProvider.TERM_CONTENT_TYPE, termId);
                 startActivityForResult(intent, COURSE_EDITOR_ACTIVITY_CODE);
         }
 

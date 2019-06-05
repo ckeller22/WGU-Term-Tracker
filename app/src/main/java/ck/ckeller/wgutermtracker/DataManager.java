@@ -102,7 +102,7 @@ public class DataManager {
     }
 
     public static int updateCourse(Context context, String courseName, String courseStart, String courseEnd, String courseMentor, String courseMentorPhone,
-                                   String courseMentorEmail, String courseStatus, String courseDesc, int courseTermId) {
+                                   String courseMentorEmail, String courseStatus, String courseDesc, int courseTermId, int courseId) {
         ContentValues values = new ContentValues();
         values.put(DBOpenHelper.COURSE_NAME, courseName);
         values.put(DBOpenHelper.COURSE_START, courseStart);
@@ -114,8 +114,8 @@ public class DataManager {
         values.put(DBOpenHelper.COURSE_DESC, courseDesc);
         values.put(DBOpenHelper.COURSE_TERM_ID, courseTermId);
 
-        courseTermId = context.getContentResolver().update(DataProvider.COURSES_URI, values, DBOpenHelper.COURSE_ID + " = " + courseTermId, null);
-        return courseTermId;
+        courseId = context.getContentResolver().update(DataProvider.COURSES_URI, values, DBOpenHelper.COURSE_ID + " = " + courseId, null);
+        return courseId;
     }
 
     // Course notes

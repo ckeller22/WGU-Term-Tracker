@@ -1,15 +1,17 @@
 package ck.ckeller.wgutermtracker;
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,6 +26,8 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
     private int termId;
     private Term currentTerm;
     private Uri currentTermUri;
+
+    private CursorAdapter cursorAdapter;
 
     private static final int COURSE_VIEWER_ACTIVITY_CODE = 1;
     private static final int COURSE_EDITOR_ACTIVITY_CODE = 2;
@@ -50,12 +54,12 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
     }
 
     private void populateCourseList() {
-        Cursor cursor = getContentResolver().query(DataProvider.COURSES_URI, DBOpenHelper.COURSES_COLUMNS,
-                DBOpenHelper.COURSE_TERM_ID + " = " + currentTerm.getTermId(), null, null, null);
+        //Cursor cursor = getContentResolver().query(DataProvider.COURSES_URI, DBOpenHelper.COURSES_COLUMNS,
+        //        DBOpenHelper.COURSE_TERM_ID + " = " + currentTerm.getTermId(), null, null, null);
         String[] from = {DBOpenHelper.COURSE_NAME, DBOpenHelper.COURSE_START, DBOpenHelper.COURSE_END};
         int[] to = {R.id.tv_course_name, R.id.tv_course_start, R.id.tv_course_end};
-        CursorAdapter cursorAdapter = new SimpleCursorAdapter(this,
-                R.layout.course_list_item, cursor, from, to, 0);
+        cursorAdapter = new SimpleCursorAdapter(this,
+                R.layout.course_list_item, null, from, to, 0);
         ListView list = findViewById(R.id.course_view);
         list.setAdapter(cursorAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -64,7 +68,8 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
                 Intent intent = new Intent(CourseListActivity.this, CourseViewerActivity.class);
                 Uri uri = Uri.parse(DataProvider.COURSES_URI + "/" + id);
                 intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, uri);
-                intent.putExtra("termId", termId);
+                intent.putExtra(DataProvider.TERM_CONTENT_TYPE, termId);
+                Log.d("buttonTest", "value:" + termId);
                 startActivityForResult(intent, COURSE_VIEWER_ACTIVITY_CODE);
             }
         });
@@ -78,20 +83,25 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
         currentTerm = DataManager.getTerm(this, termId);
     }
 
-
-    @NonNull
     @Override
-    public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
-        return null;
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().restartLoader(0, null, this);
+    }
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(this, DataProvider.COURSES_URI, DBOpenHelper.COURSES_COLUMNS, DBOpenHelper.COURSE_TERM_ID + " = " + currentTerm.getTermId(), null, null);
     }
 
     @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
-
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        cursorAdapter.swapCursor(data);
     }
 
     @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-
+    public void onLoaderReset(Loader<Cursor> loader) {
+        cursorAdapter.swapCursor(null);
     }
 }

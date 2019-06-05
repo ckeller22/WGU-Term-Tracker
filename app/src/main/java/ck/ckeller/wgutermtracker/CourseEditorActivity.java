@@ -127,6 +127,7 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
         currentCourseUri = intent.getParcelableExtra(DataProvider.COURSE_CONTENT_TYPE);
         courseId = Integer.parseInt(currentCourseUri.getLastPathSegment());
         Log.d("buttonTest", "value: " + courseId);
+        Log.d("buttonTest", "value:" + courseTermId);
         currentCourse = DataManager.getCourse(this, courseId);
     }
 
@@ -169,7 +170,7 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
         } else if (action.equals(Intent.ACTION_EDIT)) {
             getCourseFromFields();
             DataManager.updateCourse(this, currentCourse.getCourseName(), currentCourse.getCourseStart(), currentCourse.getCourseEnd(), currentCourse.getCourseMentor(),
-                    currentCourse.getCourseMentorPhone(), currentCourse.getCourseMentorEmail(), currentCourse.getCourseStatus(), currentCourse.getCourseDesc(), courseId);
+                    currentCourse.getCourseMentorPhone(), currentCourse.getCourseMentorEmail(), currentCourse.getCourseStatus(), currentCourse.getCourseDesc(), courseTermId, courseId);
             this.finish();
         }
     }
