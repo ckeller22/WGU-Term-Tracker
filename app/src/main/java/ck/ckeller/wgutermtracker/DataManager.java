@@ -83,7 +83,7 @@ public class DataManager {
     }
 
     public static Uri insertCourse(Context context, String courseName, String courseStart, String courseEnd, String courseMentor, String courseMentorPhone,
-                                   String courseMentorEmail, String courseStatus, String courseDesc, Long courseTermId) {
+                                   String courseMentorEmail, String courseStatus, String courseDesc, int courseTermId) {
         ContentValues values = new ContentValues();
         values.put(DBOpenHelper.COURSE_NAME, courseName);
         values.put(DBOpenHelper.COURSE_START, courseStart);
@@ -99,6 +99,23 @@ public class DataManager {
         return courseUri;
 
 
+    }
+
+    public static int updateCourse(Context context, String courseName, String courseStart, String courseEnd, String courseMentor, String courseMentorPhone,
+                                   String courseMentorEmail, String courseStatus, String courseDesc, int courseTermId) {
+        ContentValues values = new ContentValues();
+        values.put(DBOpenHelper.COURSE_NAME, courseName);
+        values.put(DBOpenHelper.COURSE_START, courseStart);
+        values.put(DBOpenHelper.COURSE_END, courseEnd);
+        values.put(DBOpenHelper.COURSE_MENTOR, courseMentor);
+        values.put(DBOpenHelper.COURSE_MENTOR_PHONE, courseMentorPhone);
+        values.put(DBOpenHelper.COURSE_MENTOR_EMAIL, courseMentorEmail);
+        values.put(DBOpenHelper.COURSE_STATUS, courseStatus);
+        values.put(DBOpenHelper.COURSE_DESC, courseDesc);
+        values.put(DBOpenHelper.COURSE_TERM_ID, courseTermId);
+
+        courseTermId = context.getContentResolver().update(DataProvider.COURSES_URI, values, DBOpenHelper.COURSE_ID + " = " + courseTermId, null);
+        return courseTermId;
     }
 
     // Course notes

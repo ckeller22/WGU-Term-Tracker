@@ -21,7 +21,7 @@ import android.widget.SimpleCursorAdapter;
 
 public class CourseListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private Long termId;
+    private int termId;
     private Term currentTerm;
     private Uri currentTermUri;
 
@@ -74,7 +74,7 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
     private void parseTerm() {
         Intent intent = getIntent();
         currentTermUri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
-        termId = Long.parseLong(currentTermUri.getLastPathSegment());
+        termId = Integer.parseInt(currentTermUri.getLastPathSegment());
         currentTerm = DataManager.getTerm(this, termId);
     }
 

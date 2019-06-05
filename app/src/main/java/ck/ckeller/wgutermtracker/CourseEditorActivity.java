@@ -29,7 +29,7 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
     private Uri currentCourseUri;
     private Course currentCourse;
     private int courseId;
-    private Long courseTermId;
+    private int courseTermId;
     private String action;
 
     private EditText editName;
@@ -50,6 +50,8 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
     private Calendar startDate;
     private Calendar endDate;
 
+    private int COURSE_LIST_ACTIVITY_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +63,7 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
         initDatePickers();
 
         Intent intent = getIntent();
-        courseTermId = intent.getLongExtra(DataProvider.TERM_CONTENT_TYPE, 0);
-        Log.d("test", "value:" + courseTermId);
+        courseTermId = intent.getIntExtra(DataProvider.TERM_CONTENT_TYPE, 0);
         Uri uri = intent.getParcelableExtra(DataProvider.COURSE_CONTENT_TYPE);
 
         if (uri == null) {
@@ -74,7 +75,6 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
             parseCourse();
             populateFields();
         }
-
 
     }
 
@@ -126,6 +126,7 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
         Intent intent = getIntent();
         currentCourseUri = intent.getParcelableExtra(DataProvider.COURSE_CONTENT_TYPE);
         courseId = Integer.parseInt(currentCourseUri.getLastPathSegment());
+        Log.d("buttonTest", "value: " + courseId);
         currentCourse = DataManager.getCourse(this, courseId);
     }
 
@@ -159,14 +160,17 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
     }
 
     public void saveCourseChanges(View view) {
-        Log.d("buttonTest", "buttonClicked");
         if (action.equals(Intent.ACTION_INSERT)) {
             currentCourse = new Course();
             getCourseFromFields();
             DataManager.insertCourse(this, currentCourse.getCourseName(), currentCourse.getCourseStart(), currentCourse.getCourseEnd(), currentCourse.getCourseMentor(),
                     currentCourse.getCourseMentorPhone(), currentCourse.getCourseMentorEmail(), currentCourse.getCourseStatus(), currentCourse.getCourseDesc(), courseTermId);
+            this.finish();
         } else if (action.equals(Intent.ACTION_EDIT)) {
             getCourseFromFields();
+            DataManager.updateCourse(this, currentCourse.getCourseName(), currentCourse.getCourseStart(), currentCourse.getCourseEnd(), currentCourse.getCourseMentor(),
+                    currentCourse.getCourseMentorPhone(), currentCourse.getCourseMentorEmail(), currentCourse.getCourseStatus(), currentCourse.getCourseDesc(), courseId);
+            this.finish();
         }
     }
 
