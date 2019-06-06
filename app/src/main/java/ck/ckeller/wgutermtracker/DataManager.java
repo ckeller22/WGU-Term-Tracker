@@ -53,6 +53,11 @@ public class DataManager {
         return termId;
     }
 
+    public static int deleteTerm(Context context, int termId) {
+        termId = context.getContentResolver().delete(DataProvider.TERMS_URI, DBOpenHelper.TERM_ID + " = " + termId, null);
+        return termId;
+    }
+
     // Courses
     public static Course getCourse(Context context, long courseId) {
         Cursor cursor = context.getContentResolver().query(DataProvider.COURSES_URI, DBOpenHelper.COURSES_COLUMNS,

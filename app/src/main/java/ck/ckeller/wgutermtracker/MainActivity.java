@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int TERM_VIEWER_ACTIVITY_CODE = 1;
     private static final int TERM_LIST_ACTIVITY_CODE = 2;
 
+    //todo add toast to alert user that a active term must be selected before using current term button.
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

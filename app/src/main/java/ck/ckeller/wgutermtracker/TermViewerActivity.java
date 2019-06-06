@@ -1,5 +1,6 @@
 package ck.ckeller.wgutermtracker;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -95,6 +97,19 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
                 markTermAsActive();
                 Toast.makeText(this, currentTerm.getTermName() + getString(R.string.set_active), Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.delete_term:
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setMessage("Are you sure you wish to delete this term? All information will be lost!");
+                alertDialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DataManager.deleteTerm(TermViewerActivity.this, termId);
+                        Toast.makeText(TermViewerActivity.this, "Term deleted!", Toast.LENGTH_SHORT).show();
+                        TermViewerActivity.this.finish();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton(android.R.string.no, null);
+                alertDialogBuilder.show();
         }
         return true;
     }

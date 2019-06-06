@@ -12,4 +12,7 @@
         android:id="@+id/mark_active"
         android:title="Make term active"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/delete_term"
+        android:title="Delete Term" />
 </menu>
