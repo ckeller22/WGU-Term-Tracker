@@ -27,6 +27,8 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
     private int COURSE_LIST_ACTIVITY_CODE = 1;
     private int TERM_EDITOR_ACTIVITY_CODE = 2;
 
+    //todo add functionality to delete terms
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

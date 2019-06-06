@@ -19,6 +19,9 @@ public class CourseViewerActivity extends AppCompatActivity {
 
     private static final int COURSE_EDITOR_ACTIVITY_CODE = 1;
 
+    //ToDo Add ability to transition and view assessment list
+    //todo Add ability to delete courses
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

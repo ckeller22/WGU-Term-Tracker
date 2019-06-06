@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,6 +53,9 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
 
     private int COURSE_LIST_ACTIVITY_CODE = 1;
 
+    //todo Add validation for adding/updating courses
+    //todo Clean up log messages, clean up UI
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +82,7 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    private void populateFields() {
+    public void populateFields() {
         editName.setText(currentCourse.getCourseName());
         editStart.setText(currentCourse.getCourseStart());
         editEnd.setText(currentCourse.getCourseEnd());
@@ -102,7 +106,7 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void findViews() {
+    public void findViews() {
         editName = findViewById(R.id.edit_text_course_name);
         editStart = findViewById(R.id.edit_text_course_start);
         editStart.setInputType(InputType.TYPE_NULL);
@@ -162,20 +166,30 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
 
     public void saveCourseChanges(View view) {
         if (action.equals(Intent.ACTION_INSERT)) {
-            currentCourse = new Course();
-            getCourseFromFields();
-            DataManager.insertCourse(this, currentCourse.getCourseName(), currentCourse.getCourseStart(), currentCourse.getCourseEnd(), currentCourse.getCourseMentor(),
-                    currentCourse.getCourseMentorPhone(), currentCourse.getCourseMentorEmail(), currentCourse.getCourseStatus(), currentCourse.getCourseDesc(), courseTermId);
-            this.finish();
+            if (validateFields() == true) {
+                currentCourse = new Course();
+                getCourseFromFields();
+                DataManager.insertCourse(this, currentCourse.getCourseName(), currentCourse.getCourseStart(), currentCourse.getCourseEnd(), currentCourse.getCourseMentor(),
+                        currentCourse.getCourseMentorPhone(), currentCourse.getCourseMentorEmail(), currentCourse.getCourseStatus(), currentCourse.getCourseDesc(), courseTermId);
+                Toast.makeText(this, "New course added.", Toast.LENGTH_SHORT).show();
+                this.finish();
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
         } else if (action.equals(Intent.ACTION_EDIT)) {
-            getCourseFromFields();
-            DataManager.updateCourse(this, currentCourse.getCourseName(), currentCourse.getCourseStart(), currentCourse.getCourseEnd(), currentCourse.getCourseMentor(),
-                    currentCourse.getCourseMentorPhone(), currentCourse.getCourseMentorEmail(), currentCourse.getCourseStatus(), currentCourse.getCourseDesc(), courseTermId, courseId);
-            this.finish();
+            if (validateFields() == true) {
+                getCourseFromFields();
+                DataManager.updateCourse(this, currentCourse.getCourseName(), currentCourse.getCourseStart(), currentCourse.getCourseEnd(), currentCourse.getCourseMentor(),
+                        currentCourse.getCourseMentorPhone(), currentCourse.getCourseMentorEmail(), currentCourse.getCourseStatus(), currentCourse.getCourseDesc(), courseTermId, courseId);
+                Toast.makeText(this, "Course updated.", Toast.LENGTH_SHORT).show();
+                this.finish();
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    private void getCourseFromFields() {
+    public void getCourseFromFields() {
         currentCourse.setCourseName(editName.getText().toString().trim());
         currentCourse.setCourseStart(editStart.getText().toString().trim());
         currentCourse.setCourseEnd(editEnd.getText().toString().trim());
@@ -184,6 +198,43 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
         currentCourse.setCourseMentorEmail(editMentorEmail.getText().toString().trim());
         currentCourse.setCourseDesc(editDesc.getText().toString().trim());
         currentCourse.setCourseStatus(spinnerStatus.getSelectedItem().toString());
+    }
+
+    public boolean validateFields() {
+        message = "";
+        boolean isValid;
+        if (editName.getText().length() == 0) {
+            message += "Please enter a course name. \n";
+        }
+        if (editStart.getText().length() == 0) {
+            message += "Please choose a valid start date. \n";
+        }
+        if (editEnd.getText().length() == 0) {
+            message += "Please choose a valid end date. \n";
+        }
+        if (editStart.getText().length() > 0 && editEnd.getText().length() > 0) {
+            if (endDate.before(startDate)) {
+                message += "Planned end date must not be before the start date.\n";
+            }
+        }
+        if (editMentor.getText().length() == 0) {
+            message += "Please enter a mentor name. \n";
+        }
+        if (editMentorPhone.getText().length() == 0) {
+            message += "Please enter a mentor phone number. \n";
+        }
+        if (editMentorEmail.getText().length() == 0) {
+            message += "Please enter a mentor email address. \n";
+        }
+        if (editDesc.getText().length() == 0) {
+            message += "Please enter a course description\n";
+        }
+        if (message.length() > 0) {
+            isValid = false;
+        } else {
+            isValid = true;
+        }
+        return isValid;
     }
 
     @Override
