@@ -1,14 +1,17 @@
 package ck.ckeller.wgutermtracker;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CourseViewerActivity extends AppCompatActivity {
 
@@ -77,6 +80,19 @@ public class CourseViewerActivity extends AppCompatActivity {
                 intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, currentCourseUri);
                 intent.putExtra(DataProvider.TERM_CONTENT_TYPE, termId);
                 startActivityForResult(intent, COURSE_EDITOR_ACTIVITY_CODE);
+            case R.id.delete_course:
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setMessage("Are you sure you wish to delete this course? All information will be lost!");
+                alertDialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DataManager.deleteCourse(CourseViewerActivity.this, courseId);
+                        Toast.makeText(CourseViewerActivity.this, "Course deleted!", Toast.LENGTH_SHORT).show();
+                        CourseViewerActivity.this.finish();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton(android.R.string.no, null);
+                alertDialogBuilder.show();
         }
 
 

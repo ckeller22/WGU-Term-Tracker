@@ -53,7 +53,6 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
 
     private int COURSE_LIST_ACTIVITY_CODE = 1;
 
-    //todo Add validation for adding/updating courses
     //todo Clean up log messages, clean up UI
 
     @Override

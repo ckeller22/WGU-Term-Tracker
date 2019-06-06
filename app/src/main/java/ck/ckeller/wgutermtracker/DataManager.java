@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
 
 public class DataManager {
 
@@ -115,6 +116,11 @@ public class DataManager {
         values.put(DBOpenHelper.COURSE_TERM_ID, courseTermId);
 
         courseId = context.getContentResolver().update(DataProvider.COURSES_URI, values, DBOpenHelper.COURSE_ID + " = " + courseId, null);
+        return courseId;
+    }
+
+    public static int deleteCourse(Context context, int courseId) {
+        courseId = context.getContentResolver().delete(DataProvider.COURSES_URI, DBOpenHelper.COURSE_ID + " = " + courseId, null);
         return courseId;
     }
 
