@@ -48,9 +48,9 @@ public class DataProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, COURSES_PATH, COURSES);
         uriMatcher.addURI(AUTHORITY, COURSES_PATH + "/#", COURSES_ID);
         uriMatcher.addURI(AUTHORITY, COURSE_NOTES_PATH, COURSE_NOTES);
-        uriMatcher.addURI(AUTHORITY, COURSE_NOTES_PATH, COURSE_NOTES_ID);
+        uriMatcher.addURI(AUTHORITY, COURSE_NOTES_PATH + "/#", COURSE_NOTES_ID);
         uriMatcher.addURI(AUTHORITY, ASSESSMENTS_PATH, ASSESSMENTS);
-        uriMatcher.addURI(AUTHORITY, ASSESSMENTS_PATH, ASSESSMENTS_ID);
+        uriMatcher.addURI(AUTHORITY, ASSESSMENTS_PATH + "/#", ASSESSMENTS_ID);
     }
 
     private SQLiteDatabase database;

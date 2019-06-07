@@ -165,4 +165,25 @@
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/lbl_desc"
         app:layout_constraintTop_toBottomOf="@+id/tv_mentor_email" />
+
+    <ImageButton
+        android:id="@+id/btn_assess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="openAssessmentList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_desc"
+        app:srcCompat="@android:drawable/ic_input_get" />
+
+    <TextView
+        android:id="@+id/lbl_assess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/assessments"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_assess" />
 </android.support.constraint.ConstraintLayout>

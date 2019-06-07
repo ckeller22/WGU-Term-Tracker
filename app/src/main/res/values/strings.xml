@@ -29,4 +29,5 @@
         <item>Completed</item>
         <item>Dropped</item>
     </string-array>
+    <string name="title_activity_assessment_list">Assessments</string>
 </resources>

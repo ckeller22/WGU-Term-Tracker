@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class CourseViewerActivity extends AppCompatActivity {
     private int termId;
 
     private static final int COURSE_EDITOR_ACTIVITY_CODE = 1;
+    private static final int ASSESSMENT_LIST_ACTIVITY_CODE = 2;
 
     //ToDo Add ability to transition and view assessment list
 
@@ -62,6 +64,12 @@ public class CourseViewerActivity extends AppCompatActivity {
         termId = intent.getIntExtra(DataProvider.TERM_CONTENT_TYPE, 0);
         currentCourse = DataManager.getCourse(this, courseId);
 
+    }
+
+    public void openAssessmentList(View view) {
+        Intent intent = new Intent(this, AssessmentListActivity.class);
+        intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, courseId);
+        startActivityForResult(intent, ASSESSMENT_LIST_ACTIVITY_CODE);
     }
 
     @Override

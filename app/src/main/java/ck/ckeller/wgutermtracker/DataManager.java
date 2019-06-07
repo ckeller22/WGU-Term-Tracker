@@ -132,4 +132,26 @@ public class DataManager {
     // Course notes
 
     // Assessments
+
+    public static Assessment getAssessment(Context context, long assessmentId) {
+        Cursor cursor = context.getContentResolver().query(DataProvider.ASSESSMENTS_URI, DBOpenHelper.ASSESSMENTS_COLUMNS, DBOpenHelper.ASSESSMENT_ID + " = " + assessmentId,
+                null, null, null);
+        cursor.moveToFirst();
+
+        int aId = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.ASSESSMENT_ID));
+        int assessmentCourseId = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.ASSESSMENT_COURSE_ID));
+        String assessmentName = cursor.getString((cursor.getColumnIndex(DBOpenHelper.ASSESSMENT_NAME)));
+        String assessmentDesc = cursor.getString(cursor.getColumnIndex(DBOpenHelper.ASSESSMENT_DESC));
+        String assessmentTime = cursor.getString(cursor.getColumnIndex(DBOpenHelper.ASSESSMENT_DATETIME));
+
+        Assessment a = new Assessment();
+        a.setAssessmentId(aId);
+        a.setCourseId(assessmentCourseId);
+        a.setAssessmentName(assessmentName);
+        a.setAssessmentDesc(assessmentDesc);
+        a.setAssessmentTime(assessmentTime);
+
+        return a;
+
+    }
 }
