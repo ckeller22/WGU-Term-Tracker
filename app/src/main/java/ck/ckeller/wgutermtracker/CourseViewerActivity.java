@@ -24,7 +24,8 @@ public class CourseViewerActivity extends AppCompatActivity {
     private static final int COURSE_EDITOR_ACTIVITY_CODE = 1;
     private static final int ASSESSMENT_LIST_ACTIVITY_CODE = 2;
 
-    //ToDo Add ability to transition and view assessment list
+    //todo implement button to transition to coursenotes
+    //todo course note viewer activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,7 @@ public class CourseViewerActivity extends AppCompatActivity {
                 intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, currentCourseUri);
                 intent.putExtra(DataProvider.TERM_CONTENT_TYPE, termId);
                 startActivityForResult(intent, COURSE_EDITOR_ACTIVITY_CODE);
+                break;
             case R.id.delete_course:
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
                 alertDialogBuilder.setMessage("Are you sure you wish to delete this course? All information will be lost!");
@@ -100,6 +102,7 @@ public class CourseViewerActivity extends AppCompatActivity {
                 });
                 alertDialogBuilder.setNegativeButton(android.R.string.no, null);
                 alertDialogBuilder.show();
+                break;
         }
 
 

@@ -178,7 +178,7 @@
         app:srcCompat="@android:drawable/ic_input_get" />
 
     <TextView
-        android:id="@+id/lbl_assess"
+        android:id="@+id/lbl_assess_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

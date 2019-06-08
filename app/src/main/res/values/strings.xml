@@ -30,4 +30,6 @@
         <item>Dropped</item>
     </string-array>
     <string name="title_activity_assessment_list">Assessments</string>
+    <string name="title_activity_assessment_viewer">Assessment</string>
+    <string name="title_activity_assessment_editor">Edit Assessment</string>
 </resources>
