@@ -9,6 +9,12 @@ import android.view.View;
 
 public class AssessmentEditorActivity extends AppCompatActivity {
 
+
+    //todo implement intent detection edit/insert
+    //todo implement ui for editor
+    //todo assessment validation
+    //todo data manager for update/insert assessment
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

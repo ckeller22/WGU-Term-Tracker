@@ -12,8 +12,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class TermEditorActivity extends AppCompatActivity implements View.OnClickListener {
@@ -33,8 +35,8 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
     private String message;
     private String myFormat = "MM/dd/yyyy";
     private SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-    private Calendar startDate;
-    private Calendar endDate;
+    private Calendar startDate = Calendar.getInstance();
+    private Calendar endDate= Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +123,7 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
         currentTerm.setTermEnd(editEnd.getText().toString().trim());
     }
 
-    public boolean validateFields() {
+    public boolean validateFields() throws ParseException {
         message = "";
         boolean isValid;
         if (editName.getText().length() == 0) {
@@ -134,6 +136,10 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
             message += "Please choose a valid end date.\n";
         }
         if (editStart.getText().length() > 0 && editEnd.getText().length() > 0) {
+            Date sDate = sdf.parse(editStart.getText().toString());
+            startDate.setTime(sDate);
+            Date eDate = sdf.parse(editEnd.getText().toString());
+            endDate.setTime(eDate);
             if (endDate.before(startDate)) {
                 message += "Planned end date must not be before the start date.\n";
             }
@@ -146,7 +152,7 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
         return isValid;
     }
 
-    public void saveTermChanges(View view) {
+    public void saveTermChanges(View view) throws ParseException {
         if (action.equals(Intent.ACTION_INSERT)) {
             if (validateFields() == true) {
                 currentTerm = new Term();

@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,9 +22,8 @@ public class AssessmentListActivity extends AppCompatActivity {
     private int ASSESSMENT_VIEWER_ACTIVITY_CODE = 2;
 
     //todo ability to add new assessment
-    //todo ability to transition to assessmentviewer
     //todo fix font and list spacing
-    //todo implement menulist to edit, delete courses
+    //todo implement menulist to edit, delete assessments
 
 
     @Override

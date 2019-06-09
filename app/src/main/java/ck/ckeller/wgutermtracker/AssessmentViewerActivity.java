@@ -7,6 +7,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +17,8 @@ public class AssessmentViewerActivity extends AppCompatActivity {
     private int assessmentId;
     private int courseId;
     private Assessment currentAssessment;
+
+    private int ASSESSMENT_EDITOR_ACTIVITY_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,4 +58,26 @@ public class AssessmentViewerActivity extends AppCompatActivity {
         tvTime.setText(currentAssessment.getAssessmentTime());
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_assessment_viewer, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit_assessment:
+                Intent intent = new Intent(AssessmentViewerActivity.this, AssessmentEditorActivity.class);
+                intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, courseId);
+                intent.putExtra(DataProvider.ASSESSMENT_CONTENT_TYPE, assessmentId);
+                intent.setAction(Intent.ACTION_EDIT);
+                startActivityForResult(intent, ASSESSMENT_EDITOR_ACTIVITY_CODE);
+                break;
+            case R.id.delete_assessment:
+                break;
+        }
+        return true;
+    }
 }
