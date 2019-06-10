@@ -40,6 +40,8 @@ public class AssessmentEditorActivity extends AppCompatActivity implements View.
     private Calendar startTime = Calendar.getInstance();
     private final Calendar calendar = Calendar.getInstance();
 
+    //todo implement alarm for scheduled test time.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

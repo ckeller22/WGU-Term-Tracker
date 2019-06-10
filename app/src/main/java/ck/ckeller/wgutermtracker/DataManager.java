@@ -130,6 +130,46 @@ public class DataManager {
     }
 
     // Course notes
+    public static CourseNote getCourseNote(Context context, int courseNoteId) {
+        Cursor cursor = context.getContentResolver().query(DataProvider.COURSE_NOTES_URI, DBOpenHelper.COURSE_NOTES_COLUMNS, DBOpenHelper.COURSE_NOTE_ID + " = "
+        + courseNoteId, null, null, null);
+        cursor.moveToFirst();
+
+        int cnId = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COURSE_NOTE_ID));
+        int courseNoteCourseId = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COURSE_NOTE_COURSE_ID));
+        String courseNoteText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COURSE_NOTE_TEXT));
+
+        CourseNote cn = new CourseNote();
+        cn.setCourseNoteId(cnId);
+        cn.setCourseId(courseNoteCourseId);
+        cn.setCourseNoteText(courseNoteText);
+
+        return cn;
+    }
+
+    public static Uri insertCourseNote(Context context, String courseNoteText, int courseId) {
+        ContentValues values = new ContentValues();
+        values.put(DBOpenHelper.COURSE_NOTE_TEXT, courseNoteText);
+        values.put(DBOpenHelper.COURSE_NOTE_COURSE_ID, courseId);
+
+        Uri uri = context.getContentResolver().insert(DataProvider.COURSE_NOTES_URI, values);
+        return uri;
+
+    }
+
+    public static int updateCourseNote(Context context, String courseNoteText, int courseId, int courseNoteId) {
+        ContentValues values = new ContentValues();
+        values.put(DBOpenHelper.COURSE_NOTE_TEXT, courseNoteText);
+        values.put(DBOpenHelper.COURSE_NOTE_COURSE_ID, courseId);
+
+        courseNoteId = context.getContentResolver().update(DataProvider.COURSE_NOTES_URI, values, DBOpenHelper.COURSE_NOTE_ID + " = " + courseNoteId, null);
+        return courseNoteId;
+    }
+
+    public static int deleteCourseNote(Context context, int courseNoteId) {
+        courseNoteId = context.getContentResolver().delete(DataProvider.COURSE_NOTES_URI, DBOpenHelper.COURSE_NOTE_ID + " = " + courseNoteId, null);
+        return courseNoteId;
+    }
 
     // Assessments
 
