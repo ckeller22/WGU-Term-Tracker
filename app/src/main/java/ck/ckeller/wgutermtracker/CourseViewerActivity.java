@@ -23,6 +23,7 @@ public class CourseViewerActivity extends AppCompatActivity {
 
     private static final int COURSE_EDITOR_ACTIVITY_CODE = 1;
     private static final int ASSESSMENT_LIST_ACTIVITY_CODE = 2;
+    private static final int COURSE_NOTE_LIST_ACTIVITY_CODE = 3;
 
     //todo implement button to transition to coursenotes
     //todo course note viewer activity
@@ -71,6 +72,12 @@ public class CourseViewerActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AssessmentListActivity.class);
         intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, courseId);
         startActivityForResult(intent, ASSESSMENT_LIST_ACTIVITY_CODE);
+    }
+
+    public void openCourseNoteList(View view) {
+        Intent intent = new Intent(this, CourseNoteListActivity.class);
+        intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, courseId);
+        startActivityForResult(intent, COURSE_NOTE_LIST_ACTIVITY_CODE);
     }
 
     @Override

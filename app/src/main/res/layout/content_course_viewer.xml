@@ -8,6 +8,17 @@
     tools:context=".CourseViewerActivity"
     tools:showIn="@layout/activity_course_viewer">
 
+    <ImageButton
+        android:id="@+id/btn_course_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="openCourseNoteList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_assess_desc"
+        app:srcCompat="@android:drawable/ic_input_get" />
+
     <TextView
         android:id="@+id/lbl_name"
         android:layout_width="match_parent"
@@ -186,4 +197,14 @@
         android:text="@string/assessments"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_assess" />
+
+    <TextView
+        android:id="@+id/lbl_course_notes_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Course Notes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_course_notes" />
 </android.support.constraint.ConstraintLayout>
