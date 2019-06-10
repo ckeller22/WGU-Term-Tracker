@@ -21,10 +21,7 @@ public class AssessmentListActivity extends AppCompatActivity {
     private int ASSESSMENT_EDITOR_ACTIVITY_CODE = 1;
     private int ASSESSMENT_VIEWER_ACTIVITY_CODE = 2;
 
-    //todo ability to add new assessment
     //todo fix font and list spacing
-    //todo implement menulist to edit, delete assessments
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

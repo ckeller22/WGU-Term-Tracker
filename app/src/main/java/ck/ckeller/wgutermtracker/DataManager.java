@@ -177,4 +177,9 @@ public class DataManager {
         assessmentId = context.getContentResolver().update(DataProvider.ASSESSMENTS_URI, values, DBOpenHelper.ASSESSMENT_ID + " = " + assessmentId, null);
         return assessmentId;
     }
+
+    public static int deleteAssessment(Context context, int assessmentId) {
+        assessmentId = context.getContentResolver().delete(DataProvider.ASSESSMENTS_URI, DBOpenHelper.ASSESSMENT_ID + " = " + assessmentId, null);
+        return assessmentId;
+    }
 }
