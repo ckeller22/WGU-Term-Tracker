@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,19 +30,15 @@ public class AssessmentEditorActivity extends AppCompatActivity implements View.
     private int assessmentId;
     private int courseId;
     private Assessment currentAssessment;
+    private String message;
 
     private DatePickerDialog dateDialog;
     private TimePickerDialog timeDialog;
+
     private String myFormat = "MM/dd/yyyy";
     private SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
     private Calendar startTime = Calendar.getInstance();
     private final Calendar calendar = Calendar.getInstance();
-
-
-    //todo implement intent detection edit/insert
-    //todo implement ui for editor
-    //todo assessment validation
-    //todo data manager for update/insert assessment
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,15 +151,45 @@ public class AssessmentEditorActivity extends AppCompatActivity implements View.
     public void saveAssessment(View view) {
         Intent intent = getIntent();
         if (intent.getAction().equals(Intent.ACTION_EDIT)) {
-            getAssessmentFromFields();
-            DataManager.updateAssessment(this, currentAssessment.getAssessmentName(), currentAssessment.getAssessmentTime(), currentAssessment.getAssessmentDesc(), courseId, assessmentId);
-            finish();
+            if (validateFields() == true) {
+                getAssessmentFromFields();
+                DataManager.updateAssessment(this, currentAssessment.getAssessmentName(), currentAssessment.getAssessmentTime(), currentAssessment.getAssessmentDesc(), courseId, assessmentId);
+                Toast.makeText(this, "Assessment updated.", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
         } else if (intent.getAction().equals(Intent.ACTION_INSERT)) {
-            currentAssessment = new Assessment();
-            getAssessmentFromFields();
-            DataManager.insertAssessment(this, currentAssessment.getAssessmentName(), currentAssessment.getAssessmentTime(), currentAssessment.getAssessmentDesc(), courseId);
-            finish();
+            if (validateFields() == true) {
+                currentAssessment = new Assessment();
+                getAssessmentFromFields();
+                DataManager.insertAssessment(this, currentAssessment.getAssessmentName(), currentAssessment.getAssessmentTime(), currentAssessment.getAssessmentDesc(), courseId);
+                Toast.makeText(this, "New assessment added.", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
         }
+    }
+
+    public boolean validateFields() {
+        message = "";
+        boolean isValid;
+        if (editName.getText().length() == 0) {
+            message += "Please enter an assessment name. \n";
+        }
+        if (editTime.getText().length() == 0) {
+            message += "Please select a time for your assessment. \n";
+        }
+        if (editDesc.getText().length() == 0) {
+            message += "Please enter a description. \n";
+        }
+        if (message.length() > 0) {
+            isValid = false;
+        } else {
+            isValid = true;
+        }
+        return isValid;
     }
 
     @Override
