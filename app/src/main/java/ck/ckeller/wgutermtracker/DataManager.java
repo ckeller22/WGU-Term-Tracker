@@ -154,4 +154,27 @@ public class DataManager {
         return a;
 
     }
+
+    public static Uri insertAssessment(Context context, String assessmentName, String assessmentTime, String assessmentDesc, int courseId) {
+        ContentValues values = new ContentValues();
+        values.put(DBOpenHelper.ASSESSMENT_NAME, assessmentName);
+        values.put(DBOpenHelper.ASSESSMENT_DATETIME, assessmentTime);
+        values.put(DBOpenHelper.ASSESSMENT_DESC, assessmentDesc);
+        values.put(DBOpenHelper.ASSESSMENT_COURSE_ID, courseId);
+
+        Uri uri = context.getContentResolver().insert(DataProvider.ASSESSMENTS_URI, values);
+
+        return uri;
+    }
+
+    public static int updateAssessment(Context context, String assessmentName, String assessmentTime, String assessmentDesc, int courseId, int assessmentId) {
+        ContentValues values = new ContentValues();
+        values.put(DBOpenHelper.ASSESSMENT_NAME, assessmentName);
+        values.put(DBOpenHelper.ASSESSMENT_DATETIME, assessmentTime);
+        values.put(DBOpenHelper.ASSESSMENT_DESC, assessmentDesc);
+        values.put(DBOpenHelper.ASSESSMENT_COURSE_ID, courseId);
+
+        assessmentId = context.getContentResolver().update(DataProvider.ASSESSMENTS_URI, values, DBOpenHelper.ASSESSMENT_ID + " = " + assessmentId, null);
+        return assessmentId;
+    }
 }

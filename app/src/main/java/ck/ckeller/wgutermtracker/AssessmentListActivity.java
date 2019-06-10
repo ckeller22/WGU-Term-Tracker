@@ -42,6 +42,7 @@ public class AssessmentListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AssessmentListActivity.this, AssessmentEditorActivity.class);
+                intent.setAction(Intent.ACTION_INSERT);
                 intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, courseId);
                 startActivityForResult(intent, ASSESSMENT_EDITOR_ACTIVITY_CODE);
             }

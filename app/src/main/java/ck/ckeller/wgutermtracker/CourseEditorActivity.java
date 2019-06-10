@@ -56,7 +56,6 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
     private int COURSE_LIST_ACTIVITY_CODE = 1;
 
     //todo Clean up log messages, clean up UI
-    //todo fix validation method, assign calendar variable before validation to remove null object reference,.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
