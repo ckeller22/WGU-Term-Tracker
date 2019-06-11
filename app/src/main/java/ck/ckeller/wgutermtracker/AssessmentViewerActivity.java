@@ -84,7 +84,7 @@ public class AssessmentViewerActivity extends AppCompatActivity {
                 alertDialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DataManager.deleteAssessment(AssessmentViewerActivity.this, courseId);
+                        DataManager.deleteAssessment(AssessmentViewerActivity.this, assessmentId);
                         Toast.makeText(AssessmentViewerActivity.this, "Assessment deleted!", Toast.LENGTH_SHORT).show();
                         AssessmentViewerActivity.this.finish();
                     }
