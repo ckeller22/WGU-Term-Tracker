@@ -25,9 +25,6 @@ public class CourseViewerActivity extends AppCompatActivity {
     private static final int ASSESSMENT_LIST_ACTIVITY_CODE = 2;
     private static final int COURSE_NOTE_LIST_ACTIVITY_CODE = 3;
 
-    //todo implement button to transition to coursenotes
-    //todo course note viewer activity
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

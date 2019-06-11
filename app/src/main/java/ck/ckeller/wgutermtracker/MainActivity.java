@@ -9,13 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int TERM_VIEWER_ACTIVITY_CODE = 1;
     private static final int TERM_LIST_ACTIVITY_CODE = 2;
-
-    //todo add toast to alert user that a active term must be selected before using current term button.
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(DataProvider.TERM_CONTENT_TYPE, uri);
             startActivityForResult(intent, TERM_VIEWER_ACTIVITY_CODE);
             return;
+        } else {
+            Toast.makeText(this, "Please mark a term as active before continuing.", Toast.LENGTH_SHORT).show();
         }
 
     }
