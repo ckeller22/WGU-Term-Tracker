@@ -25,6 +25,9 @@ public class CourseViewerActivity extends AppCompatActivity {
     private static final int ASSESSMENT_LIST_ACTIVITY_CODE = 2;
     private static final int COURSE_NOTE_LIST_ACTIVITY_CODE = 3;
 
+    //todo implement alarm for course start/end dates
+    //todo implement load manager to allow all lists to load data on refresh.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

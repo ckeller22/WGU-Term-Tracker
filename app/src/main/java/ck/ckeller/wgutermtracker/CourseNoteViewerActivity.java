@@ -22,6 +22,8 @@ public class CourseNoteViewerActivity extends AppCompatActivity {
     private CourseNote currentCourseNote;
 
     private int COURSE_NOTE_EDITOR_ACTIVITY_CODE = 1;
+
+    //todo implement sms/email sharing feature for course notes.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

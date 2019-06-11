@@ -29,8 +29,6 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
     private int COURSE_LIST_ACTIVITY_CODE = 1;
     private int TERM_EDITOR_ACTIVITY_CODE = 2;
 
-    //todo add functionality to delete terms
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,22 +96,36 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
                 Toast.makeText(this, currentTerm.getTermName() + getString(R.string.set_active), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.delete_term:
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-                alertDialogBuilder.setMessage("Are you sure you wish to delete this term? All information will be lost!");
-                alertDialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DataManager.deleteTerm(TermViewerActivity.this, termId);
-                        Toast.makeText(TermViewerActivity.this, "Term deleted!", Toast.LENGTH_SHORT).show();
-                        TermViewerActivity.this.finish();
-                    }
-                });
-                alertDialogBuilder.setNegativeButton(android.R.string.no, null);
-                alertDialogBuilder.show();
+                if (termDeleteValidation()) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                    alertDialogBuilder.setMessage("Are you sure you wish to delete this term? All information will be lost!");
+                    alertDialogBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            DataManager.deleteTerm(TermViewerActivity.this, termId);
+                            Toast.makeText(TermViewerActivity.this, "Term deleted!", Toast.LENGTH_SHORT).show();
+                            TermViewerActivity.this.finish();
+                        }
+                    });
+                    alertDialogBuilder.setNegativeButton(android.R.string.no, null);
+                    alertDialogBuilder.show();
+                } else {
+                    Toast.makeText(TermViewerActivity.this, "The term has at least one course assigned to it and cannot be deleted.", Toast.LENGTH_SHORT).show();
+                }
         }
         return true;
     }
 
+    public boolean termDeleteValidation() {
+        Cursor cursor = getContentResolver().query(DataProvider.COURSES_URI, DBOpenHelper.COURSES_COLUMNS, DBOpenHelper.COURSE_TERM_ID + " = " + termId,
+                null, null, null);
+        if (cursor.moveToFirst()) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
 
     public void markTermAsActive() {
 
