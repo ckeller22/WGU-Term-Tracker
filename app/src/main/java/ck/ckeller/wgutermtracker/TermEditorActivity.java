@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -20,7 +21,6 @@ import java.util.Locale;
 
 public class TermEditorActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String action;
     private Term currentTerm;
     private Uri currentTermUri;
     private int termId;
@@ -49,13 +49,11 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
         initDatePickers();
 
         Intent intent = getIntent();
-        Uri uri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
 
-        if (uri == null) {
-            action = Intent.ACTION_INSERT;
+
+        if (intent.getAction().equals(Intent.ACTION_INSERT)) {
             setTitle(getString(R.string.new_term));
-        } else {
-            action = Intent.ACTION_EDIT;
+        } else if (intent.getAction().equals(Intent.ACTION_EDIT)){
             setTitle(getString(R.string.edit_term));
             parseTerm();
             populateFields();
@@ -104,9 +102,8 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
 
     public void parseTerm() {
         Intent intent = getIntent();
-        currentTermUri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
-
-        termId = Integer.parseInt(currentTermUri.getLastPathSegment());
+        //long longTermId = intent.getLongExtra(DataProvider.TERM_CONTENT_TYPE, 0);
+        termId = intent.getIntExtra(DataProvider.TERM_CONTENT_TYPE, 0);
         currentTerm = DataManager.getTerm(this, termId);
 
     }
@@ -153,7 +150,8 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void saveTermChanges(View view) throws ParseException {
-        if (action.equals(Intent.ACTION_INSERT)) {
+        Intent intent = getIntent();
+        if (intent.getAction().equals(Intent.ACTION_INSERT)) {
             if (validateFields() == true) {
                 currentTerm = new Term();
                 getTermFromFields();
@@ -163,7 +161,7 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
             } else {
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             }
-        } else if (action.equals(Intent.ACTION_EDIT)) {
+        } else if (intent.getAction().equals(Intent.ACTION_EDIT)) {
             if (validateFields() == true) {
                 getTermFromFields();
                 DataManager.updateTerm(this, termId, currentTerm.getTermName(), currentTerm.getTermStart(), currentTerm.getTermEnd(), currentTerm.getActive());

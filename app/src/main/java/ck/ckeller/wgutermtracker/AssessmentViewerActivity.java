@@ -94,6 +94,7 @@ public class AssessmentViewerActivity extends AppCompatActivity {
                 break;
             case R.id.set_alarm:
                 sendAssessment(this);
+                break;
         }
         return true;
     }

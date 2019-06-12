@@ -33,7 +33,6 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
     private Course currentCourse;
     private int courseId;
     private int courseTermId;
-    private String action;
 
     private EditText editName;
     private EditText editStart;
@@ -68,18 +67,17 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
         initDatePickers();
 
         Intent intent = getIntent();
-        courseTermId = intent.getIntExtra(DataProvider.TERM_CONTENT_TYPE, 0);
-        Uri uri = intent.getParcelableExtra(DataProvider.COURSE_CONTENT_TYPE);
+        courseTermId = intent.getIntExtra(DBOpenHelper.TERM_ID, 0);
 
-        if (uri == null) {
-            action = Intent.ACTION_INSERT;
+        if (intent.getAction().equals(Intent.ACTION_INSERT)) {
             setTitle("New course");
-        } else {
-            action = Intent.ACTION_EDIT;
+        } else if (intent.getAction().equals(Intent.ACTION_EDIT)){
             setTitle("Edit Course");
             parseCourse();
             populateFields();
         }
+        Log.d("string", "value: " + courseId);
+        Log.d("string", "value: " + courseTermId);
 
     }
 
@@ -129,10 +127,9 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
 
     public void parseCourse() {
         Intent intent = getIntent();
-        currentCourseUri = intent.getParcelableExtra(DataProvider.COURSE_CONTENT_TYPE);
-        courseId = Integer.parseInt(currentCourseUri.getLastPathSegment());
-        Log.d("buttonTest", "value: " + courseId);
-        Log.d("buttonTest", "value:" + courseTermId);
+        long longCourseId = intent.getLongExtra(DataProvider.COURSE_CONTENT_TYPE, 0);
+        courseId = intent.getIntExtra(DataProvider.COURSE_CONTENT_TYPE, 0);
+        courseTermId = intent.getIntExtra(DataProvider.TERM_CONTENT_TYPE, 0);
         currentCourse = DataManager.getCourse(this, courseId);
     }
 
@@ -166,7 +163,8 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
     }
 
     public void saveCourseChanges(View view) throws ParseException {
-        if (action.equals(Intent.ACTION_INSERT)) {
+        Intent intent = getIntent();
+        if (intent.getAction().equals(Intent.ACTION_INSERT)) {
             if (validateFields() == true) {
                 currentCourse = new Course();
                 getCourseFromFields();
@@ -177,7 +175,7 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
             } else {
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             }
-        } else if (action.equals(Intent.ACTION_EDIT)) {
+        } else if (intent.getAction().equals(Intent.ACTION_EDIT)) {
             if (validateFields() == true) {
                 getCourseFromFields();
                 DataManager.updateCourse(this, currentCourse.getCourseName(), currentCourse.getCourseStart(), currentCourse.getCourseEnd(), currentCourse.getCourseMentor(),

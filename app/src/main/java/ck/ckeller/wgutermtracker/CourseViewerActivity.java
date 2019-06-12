@@ -9,6 +9,7 @@ import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,8 +27,11 @@ public class CourseViewerActivity extends AppCompatActivity {
     private static final int ASSESSMENT_LIST_ACTIVITY_CODE = 2;
     private static final int COURSE_NOTE_LIST_ACTIVITY_CODE = 3;
 
+    //todo implement menu items to enable notifications for start and end dates
+    //todo enable ability to enable/disable alarms/notifications
     //todo implement alarm for course start/end dates
     //todo implement load manager to allow all lists to load data on refresh.
+    //todo finish refactoring code to implement intent actions/intent extras instead of uris
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +66,9 @@ public class CourseViewerActivity extends AppCompatActivity {
 
     public void parseCourse() {
         Intent intent = getIntent();
-        currentCourseUri = intent.getParcelableExtra(DataProvider.COURSE_CONTENT_TYPE);
-        courseId = Integer.parseInt(currentCourseUri.getLastPathSegment());
-        termId = intent.getIntExtra(DataProvider.TERM_CONTENT_TYPE, 0);
+        long longCourseId = intent.getLongExtra(DataProvider.COURSE_CONTENT_TYPE, 0);
+        courseId = (int)longCourseId;
+        termId = intent.getIntExtra(DBOpenHelper.TERM_ID, 0);
         currentCourse = DataManager.getCourse(this, courseId);
 
     }
@@ -93,7 +97,8 @@ public class CourseViewerActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.edit_course:
                 Intent intent = new Intent(CourseViewerActivity.this, CourseEditorActivity.class);
-                intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, currentCourseUri);
+                intent.setAction(Intent.ACTION_EDIT);
+                intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, courseId);
                 intent.putExtra(DataProvider.TERM_CONTENT_TYPE, termId);
                 startActivityForResult(intent, COURSE_EDITOR_ACTIVITY_CODE);
                 break;

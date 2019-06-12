@@ -37,6 +37,7 @@ public class TermListActivity extends AppCompatActivity implements LoaderManager
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TermListActivity.this, TermEditorActivity.class);
+                intent.setAction(Intent.ACTION_INSERT);
                 startActivityForResult(intent, TERM_EDITOR_CODE);
             }
         });
@@ -56,8 +57,7 @@ public class TermListActivity extends AppCompatActivity implements LoaderManager
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(TermListActivity.this, TermViewerActivity.class);
-                Uri uri = Uri.parse(DataProvider.TERMS_URI + "/" + id);
-                intent.putExtra(DataProvider.TERM_CONTENT_TYPE, uri);
+                intent.putExtra(DBOpenHelper.TERM_ID, id);
                 startActivityForResult(intent, TERM_VIEWER_ACTIVITY_CODE);
             }
         });

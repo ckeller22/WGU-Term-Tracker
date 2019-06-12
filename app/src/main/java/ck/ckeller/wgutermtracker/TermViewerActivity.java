@@ -49,7 +49,7 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
 
     public void openCourseList(View view) {
         Intent intent = new Intent(this, CourseListActivity.class);
-        intent.putExtra(DataProvider.TERM_CONTENT_TYPE, currentTermUri);
+        intent.putExtra(DBOpenHelper.TERM_ID, termId);
         startActivityForResult(intent, COURSE_LIST_ACTIVITY_CODE);
 
     }
@@ -66,9 +66,8 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
 
     public void parseTerm() {
         Intent intent = getIntent();
-        currentTermUri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
-
-        termId = Integer.parseInt(currentTermUri.getLastPathSegment());
+        long longTermId = intent.getLongExtra(DBOpenHelper.TERM_ID, 0);
+        termId = (int)longTermId;
         currentTerm = DataManager.getTerm(this, termId);
 
     }
@@ -87,8 +86,8 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
         switch (item.getItemId()) {
             case R.id.edit_term:
                 Intent intent = new Intent(this, TermEditorActivity.class);
-                Uri uri = Uri.parse(DataProvider.TERMS_URI + "/" + currentTerm.getTermId());
-                intent.putExtra(DataProvider.TERM_CONTENT_TYPE, uri);
+                intent.setAction(Intent.ACTION_EDIT);
+                intent.putExtra(DataProvider.TERM_CONTENT_TYPE, termId);
                 startActivityForResult(intent, TERM_EDITOR_ACTIVITY_CODE);
                 break;
             case R.id.mark_active:

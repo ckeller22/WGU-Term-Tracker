@@ -44,7 +44,8 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CourseListActivity.this, CourseEditorActivity.class);
-                intent.putExtra(DataProvider.TERM_CONTENT_TYPE, termId);
+                intent.setAction(Intent.ACTION_INSERT);
+                intent.putExtra(DBOpenHelper.TERM_ID, termId);
                 startActivityForResult(intent, COURSE_EDITOR_ACTIVITY_CODE);
             }
         });
@@ -66,10 +67,8 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CourseListActivity.this, CourseViewerActivity.class);
-                Uri uri = Uri.parse(DataProvider.COURSES_URI + "/" + id);
-                intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, uri);
-                intent.putExtra(DataProvider.TERM_CONTENT_TYPE, termId);
-                Log.d("buttonTest", "value:" + termId);
+                intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, id);
+                intent.putExtra(DBOpenHelper.TERM_ID, termId);
                 startActivityForResult(intent, COURSE_VIEWER_ACTIVITY_CODE);
             }
         });
@@ -78,8 +77,7 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
 
     private void parseTerm() {
         Intent intent = getIntent();
-        currentTermUri = intent.getParcelableExtra(DataProvider.TERM_CONTENT_TYPE);
-        termId = Integer.parseInt(currentTermUri.getLastPathSegment());
+        termId = intent.getIntExtra(DBOpenHelper.TERM_ID, 0);
         currentTerm = DataManager.getTerm(this, termId);
     }
 
