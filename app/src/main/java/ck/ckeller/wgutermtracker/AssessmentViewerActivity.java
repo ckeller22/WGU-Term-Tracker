@@ -1,5 +1,6 @@
 package ck.ckeller.wgutermtracker;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,7 +92,20 @@ public class AssessmentViewerActivity extends AppCompatActivity {
                 alertDialogBuilder.setNegativeButton(android.R.string.no, null);
                 alertDialogBuilder.show();
                 break;
+            case R.id.set_alarm:
+                sendAssessment(this);
         }
         return true;
     }
+
+    public void sendAssessment(Context context) {
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        intent.setAction("ck.ckeller.wgutermtracker.ASSESS_ALARM");
+        intent.putExtra(DBOpenHelper.ASSESSMENT_ID, assessmentId);
+        intent.putExtra(DBOpenHelper.ASSESSMENT_COURSE_ID, courseId);
+        intent.putExtra(DBOpenHelper.ASSESSMENT_NAME, currentAssessment.getAssessmentName());
+        intent.putExtra(DBOpenHelper.ASSESSMENT_DATETIME, currentAssessment.getAssessmentTime());
+        sendBroadcast(intent);
+    }
+
 }

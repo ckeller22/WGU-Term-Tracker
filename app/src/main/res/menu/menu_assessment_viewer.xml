@@ -8,4 +8,7 @@
     <item
         android:id="@+id/delete_assessment"
         android:title="Delete Assessment" />
+    <item
+        android:id="@+id/set_alarm"
+        android:title="Set Alarm" />
 </menu>

@@ -37,7 +37,6 @@ public class AssessmentEditorActivity extends AppCompatActivity implements View.
 
     private String myFormat = "MM/dd/yyyy";
     private SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-    private Calendar startTime = Calendar.getInstance();
     private final Calendar calendar = Calendar.getInstance();
 
     //todo implement alarm for scheduled test time.
@@ -105,14 +104,11 @@ public class AssessmentEditorActivity extends AppCompatActivity implements View.
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, month, dayOfMonth);
-                startTime = newDate;
+                final Calendar startTime = newDate;
                 editTime.setText(sdf.format(newDate.getTime()));
-
                 timeDialog = new TimePickerDialog(AssessmentEditorActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        startTime.set(Calendar.HOUR, hourOfDay);
-                        startTime.set(Calendar.MINUTE, minute);
 
                         Log.d("mess", "valuye" + startTime.getTime());
                         String amOrPm;
@@ -132,7 +128,7 @@ public class AssessmentEditorActivity extends AppCompatActivity implements View.
                             minuteString = minuteString + 0;
                         }
                         String time = hourOfDay + ":" + minuteString + " " + amOrPm;
-                        editTime.setText(sdf.format(startTime.getTime()) + " " + time);
+                        editTime.setText(editTime.getText() + " " + time);
 
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), false);

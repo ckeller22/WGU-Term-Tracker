@@ -68,6 +68,18 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name="ck.ckeller.wgutermtracker.AlarmReceiver">
+            <intent-filter>
+                <action android:name="ck.ckeller.wgutermtracker.ASSESS_ALARM">
+
+                </action>
+                <action android:name="ck.ckeller.wgutermtracker.COURSE_ALARM">
+
+                </action>
+            </intent-filter>
+
+        </receiver>
+
         <provider
             android:name=".DataProvider"
             android:authorities="ck.ckeller.wgutermtracker.dataprovider"

@@ -1,5 +1,6 @@
 package ck.ckeller.wgutermtracker;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -114,6 +115,17 @@ public class CourseViewerActivity extends AppCompatActivity {
 
 
         return true;
+    }
+
+    public void sendCourse(Context context){
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        intent.setAction("ck.ckeller.wgutermtracker.COURSE_ALARM");
+        intent.putExtra(DBOpenHelper.COURSE_ID, courseId);
+        intent.putExtra(DBOpenHelper.COURSE_START, currentCourse.getCourseStart());
+        intent.putExtra(DBOpenHelper.COURSE_END, currentCourse.getCourseEnd());
+        intent.putExtra(DBOpenHelper.COURSE_DESC, currentCourse.getCourseDesc());
+        intent.putExtra(DBOpenHelper.COURSE_TERM_ID, currentCourse.getTermId());
+        sendBroadcast(intent);
     }
 
 }
