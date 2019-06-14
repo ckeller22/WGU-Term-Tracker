@@ -1,5 +1,7 @@
 package ck.ckeller.wgutermtracker;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +23,10 @@ public class AssessmentViewerActivity extends AppCompatActivity {
     private int assessmentId;
     private int courseId;
     private Assessment currentAssessment;
+
+    private MenuItem enableNotification;
+    private MenuItem disableNotification;
+    private Menu menu;
 
     private int ASSESSMENT_EDITOR_ACTIVITY_CODE = 1;
 
@@ -65,6 +72,9 @@ public class AssessmentViewerActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_assessment_viewer, menu);
+        enableNotification = menu.findItem(R.id.enable_assess_notification);
+        disableNotification = menu.findItem(R.id.disable_assess_notification);
+        switchMenuOptions();
         return true;
     }
 
@@ -92,8 +102,13 @@ public class AssessmentViewerActivity extends AppCompatActivity {
                 alertDialogBuilder.setNegativeButton(android.R.string.no, null);
                 alertDialogBuilder.show();
                 break;
-            case R.id.set_alarm:
+            case R.id.enable_assess_notification:
                 sendAssessment(this);
+                switchMenuOptions();
+                invalidateOptionsMenu();
+                break;
+            case R.id.disable_assess_notification:
+                AlarmReceiver.cancelAssessmentAlarm(this, assessmentId);
                 break;
         }
         return true;
@@ -107,6 +122,20 @@ public class AssessmentViewerActivity extends AppCompatActivity {
         intent.putExtra(DBOpenHelper.ASSESSMENT_NAME, currentAssessment.getAssessmentName());
         intent.putExtra(DBOpenHelper.ASSESSMENT_DATETIME, currentAssessment.getAssessmentTime());
         sendBroadcast(intent);
+    }
+
+    public void switchMenuOptions() {
+        enableNotification.setVisible(true);
+        disableNotification.setVisible(false);
+
+        boolean alarmExists = (PendingIntent.getBroadcast(AssessmentViewerActivity.this, assessmentId,
+                new Intent("ck.ckeller.wgutermtracker.ASSESS_ALARM"),
+                PendingIntent.FLAG_NO_CREATE) != null);
+
+        if (alarmExists) {
+            enableNotification.setVisible(false);
+            disableNotification.setVisible(true);
+        }
     }
 
 }

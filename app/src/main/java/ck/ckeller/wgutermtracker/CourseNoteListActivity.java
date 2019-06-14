@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
@@ -45,11 +46,12 @@ public class CourseNoteListActivity extends AppCompatActivity {
     public void parseCourse() {
         Intent intent = getIntent();
         courseId = intent.getIntExtra(DataProvider.COURSE_CONTENT_TYPE, 0);
+        Log.d("value", "value: " + courseId);
     }
 
     public void populateCourseNoteList() {
-        Cursor cursor = getContentResolver().query(DataProvider.COURSE_NOTES_URI, DBOpenHelper.COURSE_NOTES_COLUMNS, null, null, null,
-                null);
+        Cursor cursor = getContentResolver().query(DataProvider.COURSE_NOTES_URI, DBOpenHelper.COURSE_NOTES_COLUMNS, DBOpenHelper.COURSE_NOTE_COURSE_ID + " = " + courseId,
+                null, null, null);
         String[] from = {DBOpenHelper.COURSE_NOTE_TEXT};
         int[] to = {R.id.tv_course_note_text};
         CursorAdapter cursorAdapter = new SimpleCursorAdapter(this,

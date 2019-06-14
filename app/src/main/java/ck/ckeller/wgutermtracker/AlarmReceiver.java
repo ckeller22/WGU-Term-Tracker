@@ -23,6 +23,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     private Intent alarmIntent;
     private int notificationId = 1;
 
+
+
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.US);
 
     @Override
@@ -54,47 +56,35 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
         //Create contentIntent to deliver AssessmentViewer with notification action
-        Intent contentIntent = new Intent(context, AssessmentViewerActivity.class);
+        Intent contentIntent = new Intent(context, NotificationReceiver.class);
         contentIntent.putExtra(DBOpenHelper.ASSESSMENT_ID, assessmentId);
         contentIntent.putExtra(DBOpenHelper.ASSESSMENT_COURSE_ID, courseId);
         contentIntent.putExtra(DataProvider.ASSESSMENT_CONTENT_TYPE, longAssessmentId);
-        PendingIntent activityIntent = PendingIntent.getActivity(context, 0, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        //Create notification intent
-        Intent alertIntent = new Intent(context, AlarmReceiver.class);
-        PendingIntent notificationIntent = PendingIntent.getActivity(context, 0, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        //Create and assign notification channel
-        String CHANNEL_ID = "Assessments";
-        String CHANNEL_NAME = "Assessment Alarm";
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription(CHANNEL_NAME);
-        NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
-
-        //Build the notification
-        Notification alarmNotification = new Notification.Builder(context, CHANNEL_ID)
-                .setContentTitle("Assessment Alarm")
-                .setContentText("Assessment scheduled for " + assessTimeString)
-                .setSmallIcon(android.R.drawable.star_on)
-                .setContentIntent(notificationIntent)
-                .setAutoCancel(true)
-                .addAction(android.R.drawable.ic_menu_gallery, "Open", activityIntent)
-                .addAction(android.R.drawable.ic_menu_gallery, "Dismiss", null)
-                .build();
-
-        NotificationManager noteManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        noteManager.notify(notificationId++, alarmNotification);
+        contentIntent.setAction("ck.ckeller.wgutermtracker.ASSESS_ALARM");
+        PendingIntent activityIntent = PendingIntent.getBroadcast(context, assessmentId, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Sets the alarm and sets intent to show notification.
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, assessTime.getTimeInMillis(), notificationIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 8 * 1000, activityIntent);
+
+    }
+
+    public static void cancelAssessmentAlarm(Context context, int assessmentId) {
+        //Creates a notification intent for the AlarmManager to detect and cancel.
+        Intent alertIntent = new Intent("ck.ckeller.wgutermtracker.ASSESS_ALARM");
+        PendingIntent notificationIntent = PendingIntent.getBroadcast(context, assessmentId, alertIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        //Assigns intent to AlarmManager
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(notificationIntent);
 
     }
 
     public void scheduleCourseAlarm(Context context) {
 
     }
+
+
 
 
 }

@@ -82,6 +82,7 @@ public class CourseViewerActivity extends AppCompatActivity {
     public void openCourseNoteList(View view) {
         Intent intent = new Intent(this, CourseNoteListActivity.class);
         intent.putExtra(DataProvider.COURSE_CONTENT_TYPE, courseId);
+        Log.d("value", "value: " + courseId);
         startActivityForResult(intent, COURSE_NOTE_LIST_ACTIVITY_CODE);
     }
 

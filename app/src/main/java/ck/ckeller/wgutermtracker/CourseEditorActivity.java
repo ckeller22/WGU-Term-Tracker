@@ -127,7 +127,7 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
 
     public void parseCourse() {
         Intent intent = getIntent();
-        long longCourseId = intent.getLongExtra(DataProvider.COURSE_CONTENT_TYPE, 0);
+        //long longCourseId = intent.getLongExtra(DataProvider.COURSE_CONTENT_TYPE, 0);
         courseId = intent.getIntExtra(DataProvider.COURSE_CONTENT_TYPE, 0);
         courseTermId = intent.getIntExtra(DataProvider.TERM_CONTENT_TYPE, 0);
         currentCourse = DataManager.getCourse(this, courseId);

@@ -9,6 +9,6 @@
         android:id="@+id/delete_course"
         android:title="Delete Course" />
     <item
-        android:id="@+id/set_alarm"
+        android:id="@+id/enable_assess_notification"
         android:title="Set Alarm" />
 </menu>
