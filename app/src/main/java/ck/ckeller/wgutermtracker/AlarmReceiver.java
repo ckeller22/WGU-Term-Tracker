@@ -24,16 +24,16 @@ public class AlarmReceiver extends BroadcastReceiver {
     private Intent alarmIntent;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private final String PREFERENCES_NAME = "Alarms";
-    private final String ADD_ASSESSMENT_ALARM_ACTION = "ck.ckeller.wgutermtracker.ASSESS_ALARM";
-    private final String CANCEL_ASSESSMENT_ALARM_ACTION = "ck.ckeller.wgutermtracker.ASSESS_ALARM_CANCEL";
-    private final String ADD_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_ALARM";
-    private final String CANCEL_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_ALARM_CANCEL";
+    public final String PREFERENCES_NAME = "Alarms";
+    public final String ADD_ASSESSMENT_ALARM_ACTION = "ck.ckeller.wgutermtracker.ASSESS_ALARM";
+    public final String CANCEL_ASSESSMENT_ALARM_ACTION = "ck.ckeller.wgutermtracker.ASSESS_ALARM_CANCEL";
+    public final String ADD_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_ALARM";
+    public final String CANCEL_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_ALARM_CANCEL";
 
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.US);
 
     //todo implement course alarms add/delete, clean up string usage
-    
+
     
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -82,7 +82,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         contentIntent.putExtra(DBOpenHelper.ASSESSMENT_ID, assessmentId);
         contentIntent.putExtra(DBOpenHelper.ASSESSMENT_COURSE_ID, courseId);
         contentIntent.putExtra(DataProvider.ASSESSMENT_CONTENT_TYPE, longAssessmentId);
-        contentIntent.setAction("ck.ckeller.wgutermtracker.ASSESS_ALARM");
+        contentIntent.setAction(ADD_ASSESSMENT_ALARM_ACTION);
         PendingIntent activityIntent = PendingIntent.getBroadcast(context, assessmentId, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Sets the alarm and sets intent to show notification.
@@ -98,7 +98,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void cancelAssessmentAlarm(Context context, int assessmentId) {
         //Creates a notification intent for the AlarmManager to detect and cancel.
         Intent contentIntent = new Intent(context, NotificationReceiver.class);
-        contentIntent.setAction("ck.ckeller.wgutermtracker.ASSESS_ALARM_CANCEL");
+        contentIntent.setAction(ADD_ASSESSMENT_ALARM_ACTION);
         PendingIntent notificationIntent = PendingIntent.getBroadcast(context, assessmentId, contentIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         //Assigns intent to AlarmManager
