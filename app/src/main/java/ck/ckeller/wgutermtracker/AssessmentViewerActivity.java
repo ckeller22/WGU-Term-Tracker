@@ -26,7 +26,8 @@ public class AssessmentViewerActivity extends AppCompatActivity {
 
     private MenuItem enableNotification;
     private MenuItem disableNotification;
-    private Menu menu;
+
+
 
     private int ASSESSMENT_EDITOR_ACTIVITY_CODE = 1;
 
@@ -103,20 +104,20 @@ public class AssessmentViewerActivity extends AppCompatActivity {
                 alertDialogBuilder.show();
                 break;
             case R.id.enable_assess_notification:
-                sendAssessment(this);
+                sendAssessment(AssessmentViewerActivity.this, "ck.ckeller.wgutermtracker.ASSESS_ALARM");
                 switchMenuOptions();
                 invalidateOptionsMenu();
                 break;
             case R.id.disable_assess_notification:
-                AlarmReceiver.cancelAssessmentAlarm(this, assessmentId);
+                sendAssessment(AssessmentViewerActivity.this, "ck.ckeller.wgutermtracker.ASSESS_ALARM_CANCEL");
                 break;
         }
         return true;
     }
 
-    public void sendAssessment(Context context) {
+    public void sendAssessment(Context context, String intentAction) {
         Intent intent = new Intent(this, AlarmReceiver.class);
-        intent.setAction("ck.ckeller.wgutermtracker.ASSESS_ALARM");
+        intent.setAction(intentAction);
         intent.putExtra(DBOpenHelper.ASSESSMENT_ID, assessmentId);
         intent.putExtra(DBOpenHelper.ASSESSMENT_COURSE_ID, courseId);
         intent.putExtra(DBOpenHelper.ASSESSMENT_NAME, currentAssessment.getAssessmentName());
@@ -126,10 +127,11 @@ public class AssessmentViewerActivity extends AppCompatActivity {
 
     public void switchMenuOptions() {
         enableNotification.setVisible(true);
-        disableNotification.setVisible(false);
+        disableNotification.setVisible(true);
 
-        boolean alarmExists = (PendingIntent.getBroadcast(AssessmentViewerActivity.this, assessmentId,
-                new Intent("ck.ckeller.wgutermtracker.ASSESS_ALARM"),
+        Intent intent = new Intent(AssessmentViewerActivity.this, NotificationReceiver.class);
+
+        boolean alarmExists = (PendingIntent.getBroadcast(AssessmentViewerActivity.this, assessmentId, intent,
                 PendingIntent.FLAG_NO_CREATE) != null);
 
         if (alarmExists) {

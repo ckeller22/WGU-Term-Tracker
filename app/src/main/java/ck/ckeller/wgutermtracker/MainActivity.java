@@ -2,6 +2,7 @@ package ck.ckeller.wgutermtracker;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        DBOpenHelper helper = new DBOpenHelper(this);
+        SQLiteDatabase database = helper.getWritableDatabase();
     }
 
     public void openCurrentTerm(View view) {
