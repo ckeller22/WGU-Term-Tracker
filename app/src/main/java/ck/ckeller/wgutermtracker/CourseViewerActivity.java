@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -117,15 +116,19 @@ public class CourseViewerActivity extends AppCompatActivity {
                 alertDialogBuilder.setNegativeButton(android.R.string.no, null);
                 alertDialogBuilder.show();
                 break;
+            case R.id.enable_course_notification:
+                sendCourse(CourseViewerActivity.this, AlarmReceiver.ADD_COURSE_ALARM_ACTION);
+                break;
+            case R.id.disable_course_notification:
+                sendCourse(CourseViewerActivity.this, AlarmReceiver.CANCEL_COURSE_ALARM_ACTION);
+                break;
         }
-
-
         return true;
     }
 
-    public void sendCourse(Context context){
+    public void sendCourse(Context context, String intentAction){
         Intent intent = new Intent(this, AlarmReceiver.class);
-        intent.setAction("ck.ckeller.wgutermtracker.COURSE_ALARM");
+        intent.setAction(intentAction);
         intent.putExtra(DBOpenHelper.COURSE_ID, courseId);
         intent.putExtra(DBOpenHelper.COURSE_START, currentCourse.getCourseStart());
         intent.putExtra(DBOpenHelper.COURSE_END, currentCourse.getCourseEnd());

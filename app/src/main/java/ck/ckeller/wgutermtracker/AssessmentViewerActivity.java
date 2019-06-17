@@ -76,6 +76,7 @@ public class AssessmentViewerActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_assessment_viewer, menu);
         enableNotification = menu.findItem(R.id.enable_assess_notification);
         disableNotification = menu.findItem(R.id.disable_assess_notification);
+        getAppropriateOptions();
         return true;
     }
 
@@ -110,11 +111,11 @@ public class AssessmentViewerActivity extends AppCompatActivity {
                 alertDialogBuilder.show();
                 break;
             case R.id.enable_assess_notification:
-                sendAssessment(AssessmentViewerActivity.this, "ck.ckeller.wgutermtracker.ASSESS_ALARM");
+                sendAssessment(AssessmentViewerActivity.this, AlarmReceiver.ADD_ASSESSMENT_ALARM_ACTION);
                 invalidateOptionsMenu();
                 break;
             case R.id.disable_assess_notification:
-                sendAssessment(AssessmentViewerActivity.this, "ck.ckeller.wgutermtracker.ASSESS_ALARM_CANCEL");
+                sendAssessment(AssessmentViewerActivity.this, AlarmReceiver.CANCEL_ASSESSMENT_ALARM_ACTION);
                 invalidateOptionsMenu();
                 break;
         }
@@ -132,16 +133,15 @@ public class AssessmentViewerActivity extends AppCompatActivity {
     }
 
     public void getAppropriateOptions() {
-        int assessmentExists = sharedPreferences.getInt(DataProvider.ASSESSMENT_CONTENT_TYPE + assessmentId, 99999);
+        int assessmentExists = sharedPreferences.getInt(DataProvider.ASSESSMENT_CONTENT_TYPE + assessmentId, -1);
         if (assessmentExists == 1) {
             enableNotification.setVisible(false);
             disableNotification.setVisible(true);
-        } else if (assessmentExists == 0){
+        } else if (assessmentExists == 0 || assessmentExists == -1) {
             enableNotification.setVisible(true);
             disableNotification.setVisible(false);
         }
 
     }
-
 
 }
