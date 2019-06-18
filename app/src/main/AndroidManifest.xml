@@ -72,20 +72,19 @@
         <receiver android:name="ck.ckeller.wgutermtracker.AlarmReceiver">
             <intent-filter>
                 <action android:name="ck.ckeller.wgutermtracker.ASSESS_ALARM"></action>
-                <action android:name="ck.ckeller.wgutermtracker.COURSE_ALARM"></action>
                 <action android:name="ck.ckeller.wgutermtracker.ASSESS_ALARM_CANCEL"></action>
-                <action android:name="ck.ckeller.wgutermtracker.COURSE_ALARM_CANCEL"></action>
+                <action android:name="ck.ckeller.wgutermtracker.COURSE_START_ALARM"></action>
+                <action android:name="ck.ckeller.wgutermtracker.COURSE_END_ALARM"></action>
+                <action android:name="ck.ckeller.wgutermtracker.COURSE_START_ALARM_CANCEL"></action>
+                <action android:name="ck.ckeller.wgutermtracker.COURSE_END_ALARM_CANCEL"></action>
             </intent-filter>
 
         </receiver>
         <receiver android:name=".NotificationReceiver">
             <intent-filter>
-                <action android:name="ck.ckeller.wgutermtracker.ASSESS_ALARM">
-
-                </action>
-                <action android:name="ck.ckeller.wgutermtracker.COURSE_ALARM">
-
-                </action>
+                <action android:name="ck.ckeller.wgutermtracker.ASSESS_ALARM"></action>
+                <action android:name="ck.ckeller.wgutermtracker.COURSE_START_ALARM"></action>
+                <action android:name="ck.ckeller.wgutermtracker.COURSE_END_ALARM"></action>
             </intent-filter>
         </receiver>
 

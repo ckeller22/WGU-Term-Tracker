@@ -27,12 +27,15 @@ public class AlarmReceiver extends BroadcastReceiver {
     public final static String PREFERENCES_NAME = "Alarms";
     public final static String ADD_ASSESSMENT_ALARM_ACTION = "ck.ckeller.wgutermtracker.ASSESS_ALARM";
     public final static String CANCEL_ASSESSMENT_ALARM_ACTION = "ck.ckeller.wgutermtracker.ASSESS_ALARM_CANCEL";
-    public final static String ADD_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_ALARM";
-    public final static String CANCEL_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_ALARM_CANCEL";
+    public final static String ADD_START_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_START_ALARM";
+    public final static String ADD_END_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_END_ALARM";
+    public final static String CANCEL_START_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_START_ALARM_CANCEL";
+    public final static String CANCEL_END_COURSE_ALARM_ACTION = " ";
 
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.US);
 
-    //todo implement course alarms add/delete, clean up string usage
+    //todo clean up string usage
+    //todo implement ui detection to determine which menu options to sho for course viewer.
 
     
     @Override
@@ -46,14 +49,20 @@ public class AlarmReceiver extends BroadcastReceiver {
             case ADD_ASSESSMENT_ALARM_ACTION:
                 scheduleAssessmentAlarm(context);
                 break;
-            case ADD_COURSE_ALARM_ACTION:
-                scheduleCourseAlarm(context);
+            case ADD_START_COURSE_ALARM_ACTION:
+                scheduleCourseAlarm(context, ADD_START_COURSE_ALARM_ACTION);
+                break;
+            case ADD_END_COURSE_ALARM_ACTION:
+                scheduleCourseAlarm(context, ADD_END_COURSE_ALARM_ACTION);
                 break;
             case CANCEL_ASSESSMENT_ALARM_ACTION:
                 cancelAssessmentAlarm(context, alarmIntent.getIntExtra(DBOpenHelper.ASSESSMENT_ID, 0));
                 break;
-            case CANCEL_COURSE_ALARM_ACTION:
-                cancelCourseAlarm(context, alarmIntent.getIntExtra(DBOpenHelper.COURSE_ID, 0));
+            case CANCEL_START_COURSE_ALARM_ACTION:
+                cancelCourseAlarm(context, alarmIntent.getIntExtra(DBOpenHelper.COURSE_ID, 0), CANCEL_START_COURSE_ALARM_ACTION);
+                break;
+            case CANCEL_END_COURSE_ALARM_ACTION:
+                cancelCourseAlarm(context, alarmIntent.getIntExtra(DBOpenHelper.COURSE_ID, 0), CANCEL_END_COURSE_ALARM_ACTION);
                 break;
                 //
                 default:
@@ -113,7 +122,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     }
 
-    public void scheduleCourseAlarm(Context context) {
+    public void scheduleCourseAlarm(Context context, String intentAction) {
         //Get course data from alarmIntent
         int courseId = alarmIntent.getIntExtra(DBOpenHelper.COURSE_ID, -1);
         long longCourseId = (long)courseId;
@@ -142,58 +151,47 @@ public class AlarmReceiver extends BroadcastReceiver {
         contentIntent.putExtra(DBOpenHelper.COURSE_TERM_ID, courseTermId);
         contentIntent.putExtra(DBOpenHelper.COURSE_DESC, courseDesc);
         contentIntent.putExtra(DBOpenHelper.COURSE_NAME, courseName);
-        contentIntent.setAction(ADD_COURSE_ALARM_ACTION);
 
-        PendingIntent startIntent = PendingIntent.getBroadcast(context, courseId, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent endIntent = PendingIntent.getBroadcast(context, courseId, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //Sets content action based on switch statement in onReceive, creates pending intent
+        contentIntent.setAction(intentAction);
+        PendingIntent activityIntent = PendingIntent.getBroadcast(context, courseId, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Sets the alarm and sets intent to show notification.
         if (courseStartTime.getTimeInMillis() < System.currentTimeMillis()) {
             Log.d("ALARM", "VALUE: RECEIVED DATE BEFORE");
-        } else {
-
         }
 
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 4 * 1000, startIntent);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 12 * 1000, endIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 8 * 1000, activityIntent);
 
         //Adds a key value pair in shared preferences to easily determine if an course alarm exists.
         // 1 for true, 0 for false
-        editor.putInt(DataProvider.COURSE_CONTENT_TYPE+ courseId, 1);
+        editor.putInt(DataProvider.COURSE_CONTENT_TYPE + intentAction + courseId, 1);
         editor.commit();
 
         Log.d("ALARM", "VALUE: RECEIVED " + courseStartTime.getTime());
-        Log.d("ALARM", "VALUE: RECEIVED " + courseEndTime.getTime());
+
     }
 
-    public void cancelCourseAlarm(Context context, int courseId) {
-        //Creates a notification intent for the AlarmManager to detect and cancel.
+    public void cancelCourseAlarm(Context context, int courseId, String intentAction) {
+        //Creates a notification intent for the AlarmManager to detect and cancel, converts intentAction to match to original action that
+        //created the alarm.
         Intent contentIntent = new Intent(context, NotificationReceiver.class);
-        contentIntent.setAction(ADD_COURSE_ALARM_ACTION);
+        if (intentAction.equals(AlarmReceiver.CANCEL_START_COURSE_ALARM_ACTION)) {
+            contentIntent.setAction(AlarmReceiver.ADD_START_COURSE_ALARM_ACTION);
+        } else if (intentAction.equals(AlarmReceiver.CANCEL_END_COURSE_ALARM_ACTION)) {
+            contentIntent.setAction(AlarmReceiver.ADD_END_COURSE_ALARM_ACTION);
+        }
         PendingIntent notificationIntent = PendingIntent.getBroadcast(context, courseId, contentIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         //Assigns intent to AlarmManager
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(notificationIntent);
 
-        editor.putInt(DataProvider.COURSE_CONTENT_TYPE + courseId, 0);
+        editor.putInt(DataProvider.COURSE_CONTENT_TYPE + contentIntent.getAction() + courseId, 0);
         editor.commit();
     }
 
-    public PendingIntent createCourseContentIntent(Context context, int courseId, long longCourseId, String courseStartTimeString, String courseEndTimeString, int courseTermId, String courseDesc,
-                                             String courseName) {
-        Intent contentIntent = new Intent(context, NotificationReceiver.class);
-        contentIntent.putExtra(DBOpenHelper.COURSE_ID, courseId);
-        contentIntent.putExtra(DataProvider.COURSE_CONTENT_TYPE, longCourseId);
-        contentIntent.putExtra(DBOpenHelper.COURSE_START, courseStartTimeString);
-        contentIntent.putExtra(DBOpenHelper.COURSE_END, courseEndTimeString);
-        contentIntent.putExtra(DBOpenHelper.COURSE_TERM_ID, courseTermId);
-        contentIntent.putExtra(DBOpenHelper.COURSE_DESC, courseDesc);
-        contentIntent.putExtra(DBOpenHelper.COURSE_NAME, courseName);
-        contentIntent.setAction(ADD_COURSE_ALARM_ACTION);
-        return PendingIntent.getBroadcast(context, courseId, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
 
 
 

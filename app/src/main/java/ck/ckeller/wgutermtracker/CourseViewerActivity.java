@@ -27,6 +27,7 @@ public class CourseViewerActivity extends AppCompatActivity {
     private static final int COURSE_NOTE_LIST_ACTIVITY_CODE = 3;
 
     //todo implement menu items to enable notifications for start and end dates
+    //todo implement task stack builder to allow back button to take to main activity.
     //todo enable ability to enable/disable alarms/notifications
     //todo implement alarm for course start/end dates
     //todo implement load manager to allow all lists to load data on refresh.
@@ -116,11 +117,17 @@ public class CourseViewerActivity extends AppCompatActivity {
                 alertDialogBuilder.setNegativeButton(android.R.string.no, null);
                 alertDialogBuilder.show();
                 break;
-            case R.id.enable_course_notification:
-                sendCourse(CourseViewerActivity.this, AlarmReceiver.ADD_COURSE_ALARM_ACTION);
+            case R.id.enable_start_notification:
+                sendCourse(CourseViewerActivity.this, AlarmReceiver.ADD_START_COURSE_ALARM_ACTION);
                 break;
-            case R.id.disable_course_notification:
-                sendCourse(CourseViewerActivity.this, AlarmReceiver.CANCEL_COURSE_ALARM_ACTION);
+            case R.id.disable_start_notification:
+                sendCourse(CourseViewerActivity.this, AlarmReceiver.CANCEL_START_COURSE_ALARM_ACTION);
+                break;
+            case R.id.enable_end_notification:
+                sendCourse(CourseViewerActivity.this, AlarmReceiver.ADD_END_COURSE_ALARM_ACTION);
+                break;
+            case R.id.disable_end_notification:
+                sendCourse(CourseViewerActivity.this, AlarmReceiver.CANCEL_END_COURSE_ALARM_ACTION);
                 break;
         }
         return true;
@@ -134,6 +141,7 @@ public class CourseViewerActivity extends AppCompatActivity {
         intent.putExtra(DBOpenHelper.COURSE_END, currentCourse.getCourseEnd());
         intent.putExtra(DBOpenHelper.COURSE_DESC, currentCourse.getCourseDesc());
         intent.putExtra(DBOpenHelper.COURSE_TERM_ID, currentCourse.getTermId());
+        intent.putExtra(DBOpenHelper.COURSE_NAME, currentCourse.getCourseName());
         sendBroadcast(intent);
     }
 

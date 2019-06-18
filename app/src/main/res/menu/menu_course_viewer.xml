@@ -9,9 +9,15 @@
         android:id="@+id/delete_course"
         android:title="Delete Course" />
     <item
-        android:id="@+id/enable_course_notification"
-        android:title="Enable Notifications" />
+        android:id="@+id/enable_start_notification"
+        android:title="Enable Start Notification" />
     <item
-        android:id="@+id/disable_course_notification"
-        android:title="Disable Notifications" />
+        android:id="@+id/disable_start_notification"
+        android:title="Disable Start Notification" />
+    <item
+        android:id="@+id/enable_end_notification"
+        android:title="Enable End Notification" />
+    <item
+        android:id="@+id/disable_end_notification"
+        android:title="Disable End Notification" />
 </menu>
