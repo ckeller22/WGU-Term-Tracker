@@ -3,6 +3,7 @@ package ck.ckeller.wgutermtracker;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -22,14 +23,19 @@ public class CourseViewerActivity extends AppCompatActivity {
     private int courseId;
     private int termId;
 
+    private MenuItem enableStartNotification;
+    private MenuItem disableStartNotification;
+    private MenuItem enableEndNotification;
+    private MenuItem disableEndNotification;
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     private static final int COURSE_EDITOR_ACTIVITY_CODE = 1;
     private static final int ASSESSMENT_LIST_ACTIVITY_CODE = 2;
     private static final int COURSE_NOTE_LIST_ACTIVITY_CODE = 3;
 
-    //todo implement menu items to enable notifications for start and end dates
     //todo implement task stack builder to allow back button to take to main activity.
-    //todo enable ability to enable/disable alarms/notifications
-    //todo implement alarm for course start/end dates
     //todo implement load manager to allow all lists to load data on refresh.
     //todo finish refactoring code to implement intent actions/intent extras instead of uris
 
@@ -39,6 +45,9 @@ public class CourseViewerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course_viewer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        sharedPreferences = getSharedPreferences("Alarms", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         parseCourse();
         findTextViews();
@@ -90,7 +99,18 @@ public class CourseViewerActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_course_viewer, menu);
+        enableStartNotification = menu.findItem(R.id.enable_start_notification);
+        disableStartNotification = menu.findItem(R.id.disable_start_notification);
+        enableEndNotification = menu.findItem(R.id.enable_end_notification);
+        disableEndNotification = menu.findItem(R.id.disable_end_notification);
+        getAppropriateOptions();
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        getAppropriateOptions();
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -119,15 +139,19 @@ public class CourseViewerActivity extends AppCompatActivity {
                 break;
             case R.id.enable_start_notification:
                 sendCourse(CourseViewerActivity.this, AlarmReceiver.ADD_START_COURSE_ALARM_ACTION);
+                invalidateOptionsMenu();
                 break;
             case R.id.disable_start_notification:
                 sendCourse(CourseViewerActivity.this, AlarmReceiver.CANCEL_START_COURSE_ALARM_ACTION);
+                invalidateOptionsMenu();
                 break;
             case R.id.enable_end_notification:
                 sendCourse(CourseViewerActivity.this, AlarmReceiver.ADD_END_COURSE_ALARM_ACTION);
+                invalidateOptionsMenu();
                 break;
             case R.id.disable_end_notification:
                 sendCourse(CourseViewerActivity.this, AlarmReceiver.CANCEL_END_COURSE_ALARM_ACTION);
+                invalidateOptionsMenu();
                 break;
         }
         return true;
@@ -143,6 +167,27 @@ public class CourseViewerActivity extends AppCompatActivity {
         intent.putExtra(DBOpenHelper.COURSE_TERM_ID, currentCourse.getTermId());
         intent.putExtra(DBOpenHelper.COURSE_NAME, currentCourse.getCourseName());
         sendBroadcast(intent);
+    }
+
+    public void getAppropriateOptions() {
+        int courseStartExists = sharedPreferences.getInt(DataProvider.COURSE_CONTENT_TYPE + AlarmReceiver.ADD_START_COURSE_ALARM_ACTION + courseId, -1);
+        int courseEndExists = sharedPreferences.getInt(DataProvider.COURSE_CONTENT_TYPE + AlarmReceiver.ADD_END_COURSE_ALARM_ACTION + courseId, -1);
+        if (courseStartExists == 1) {
+            enableStartNotification.setVisible(false);
+            disableStartNotification.setVisible(true);
+        } else {
+            enableStartNotification.setVisible(true);
+            disableStartNotification.setVisible(false);
+        }
+        if (courseEndExists == 1) {
+            enableEndNotification.setVisible(false);
+            disableEndNotification.setVisible(true);
+        } else {
+            enableEndNotification.setVisible(true);
+            disableEndNotification.setVisible(false);
+        }
+
+
     }
 
 }
