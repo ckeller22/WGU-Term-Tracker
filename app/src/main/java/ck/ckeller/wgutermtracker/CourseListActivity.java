@@ -73,6 +73,7 @@ public class CourseListActivity extends AppCompatActivity implements LoaderManag
             }
         });
 
+        getLoaderManager().initLoader(0, null, this);
     }
 
     private void parseTerm() {

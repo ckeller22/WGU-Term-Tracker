@@ -1,6 +1,9 @@
 package ck.ckeller.wgutermtracker;
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,15 +15,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-public class AssessmentListActivity extends AppCompatActivity {
+public class AssessmentListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private int courseId;
     private int ASSESSMENT_EDITOR_ACTIVITY_CODE = 1;
     private int ASSESSMENT_VIEWER_ACTIVITY_CODE = 2;
 
+    private CursorAdapter cursorAdapter;
     //todo fix font and list spacing
 
     @Override
@@ -47,11 +52,11 @@ public class AssessmentListActivity extends AppCompatActivity {
     }
 
     public void populateAssessmentList() {
-        Cursor cursor = getContentResolver().query(DataProvider.ASSESSMENTS_URI, DBOpenHelper.ASSESSMENTS_COLUMNS,
-               DBOpenHelper.ASSESSMENT_COURSE_ID + " = " + courseId, null, null, null);
+        //Cursor cursor = getContentResolver().query(DataProvider.ASSESSMENTS_URI, DBOpenHelper.ASSESSMENTS_COLUMNS,
+        //DBOpenHelper.ASSESSMENT_COURSE_ID + " = " + courseId, null, null, null);
         String[] from = {DBOpenHelper.ASSESSMENT_NAME, DBOpenHelper.ASSESSMENT_DATETIME};
         int[] to = {R.id.tv_assess_name, R.id.tv_assess_time};
-        SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(this, R.layout.assessment_list_item, cursor, from, to, 0);
+        cursorAdapter = new SimpleCursorAdapter(this, R.layout.assessment_list_item, null, from, to, 0);
         ListView list = findViewById(R.id.list_assessment);
         list.setAdapter(cursorAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -63,6 +68,7 @@ public class AssessmentListActivity extends AppCompatActivity {
                 startActivityForResult(intent, ASSESSMENT_VIEWER_ACTIVITY_CODE);
             }
         });
+        getLoaderManager().initLoader(0, null, this);
     }
 
     public void parseCourse() {
@@ -70,4 +76,27 @@ public class AssessmentListActivity extends AppCompatActivity {
         courseId = intent.getIntExtra(DataProvider.COURSE_CONTENT_TYPE, 0);
     }
 
+    @Override
+    protected void onResume() {
+        getLoaderManager().restartLoader(0,null, this);
+        super.onResume();
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d("cursor", "value of courseId" + courseId);
+
+        return new CursorLoader(this, DataProvider.ASSESSMENTS_URI, DBOpenHelper.ASSESSMENTS_COLUMNS,
+                DBOpenHelper.ASSESSMENT_COURSE_ID + " = " + courseId, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        cursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        cursorAdapter.swapCursor(null);
+    }
 }

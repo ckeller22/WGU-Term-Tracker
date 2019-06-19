@@ -144,4 +144,10 @@ public class AssessmentViewerActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        parseAssessment();
+        findTextViews();
+        super.onResume();
+    }
 }

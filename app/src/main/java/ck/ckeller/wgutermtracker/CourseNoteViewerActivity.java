@@ -99,4 +99,11 @@ public class CourseNoteViewerActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    protected void onResume() {
+        parseCourse();
+        findViews();
+        super.onResume();
+    }
 }

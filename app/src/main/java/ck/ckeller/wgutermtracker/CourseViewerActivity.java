@@ -189,4 +189,10 @@ public class CourseViewerActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        parseCourse();
+        findTextViews();
+        super.onResume();
+    }
 }

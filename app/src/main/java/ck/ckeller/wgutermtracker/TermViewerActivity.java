@@ -126,6 +126,13 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
 
     }
 
+    @Override
+    protected void onResume() {
+        parseTerm();
+        findTextViews();
+        super.onResume();
+    }
+
     public void markTermAsActive() {
 
         Cursor cursor = getContentResolver().query(DataProvider.TERMS_URI, DBOpenHelper.TERMS_COLUMNS,
