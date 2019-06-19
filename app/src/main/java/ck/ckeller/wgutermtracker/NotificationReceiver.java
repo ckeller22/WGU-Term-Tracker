@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,12 +20,17 @@ public class NotificationReceiver extends BroadcastReceiver {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
+    private TaskStackBuilder stackBuilder;
+
     //todo implement a way to switch between setting a start notification or an end notification
 
     @Override
     public void onReceive(Context context, Intent intent) {
         sharedPreferences = context.getSharedPreferences(AlarmReceiver.PREFERENCES_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
+        stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addNextIntent(new Intent(context, MainActivity.class));
 
         alarmIntent = intent;
 
@@ -42,7 +48,6 @@ public class NotificationReceiver extends BroadcastReceiver {
                     Log.d("Notification", "notification not recognized.");
         }
 
-
     }
 
     public void showCourseNotification(Context context, String intentAction) {
@@ -53,8 +58,10 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         //Create notification intent
         alarmIntent.setClass(context, CourseViewerActivity.class);
-        PendingIntent notificationIntent = PendingIntent.getActivity(context, courseId, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
+        //PendingIntent notificationIntent = PendingIntent.getActivity(context, courseId, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        stackBuilder.addNextIntent(alarmIntent);
+        PendingIntent notificationIntent = stackBuilder.getPendingIntent(courseId, PendingIntent.FLAG_UPDATE_CURRENT);
+        
         //Create and assign notification channel
         String CHANNEL_ID = "Courses";
         String CHANNEL_NAME = "Course Alarm";
@@ -99,8 +106,12 @@ public class NotificationReceiver extends BroadcastReceiver {
         String assessmentTime = alarmIntent.getStringExtra(DBOpenHelper.ASSESSMENT_DATETIME);
 
         //Create notification intent
+
         alarmIntent.setClass(context, AssessmentViewerActivity.class);
-        PendingIntent notificationIntent = PendingIntent.getActivity(context, assessmentId, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        stackBuilder.addNextIntent(alarmIntent);
+
+        //PendingIntent notificationIntent = PendingIntent.getActivity(context, assessmentId, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent notificationIntent = stackBuilder.getPendingIntent(assessmentId, PendingIntent.FLAG_CANCEL_CURRENT);
 
         //Create and assign notification channel
         String CHANNEL_ID = "Assessments";
