@@ -22,8 +22,6 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     private TaskStackBuilder stackBuilder;
 
-    //todo implement a way to switch between setting a start notification or an end notification
-
     @Override
     public void onReceive(Context context, Intent intent) {
         sharedPreferences = context.getSharedPreferences(AlarmReceiver.PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -61,7 +59,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         //PendingIntent notificationIntent = PendingIntent.getActivity(context, courseId, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         stackBuilder.addNextIntent(alarmIntent);
         PendingIntent notificationIntent = stackBuilder.getPendingIntent(courseId, PendingIntent.FLAG_UPDATE_CURRENT);
-        
+
         //Create and assign notification channel
         String CHANNEL_ID = "Courses";
         String CHANNEL_NAME = "Course Alarm";

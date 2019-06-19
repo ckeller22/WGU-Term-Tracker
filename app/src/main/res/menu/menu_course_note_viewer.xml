@@ -8,4 +8,7 @@
     <item
         android:id="@+id/delete_course_note"
         android:title="Delete course note" />
+    <item
+        android:id="@+id/share_course_note"
+        android:title="Share notes" />
 </menu>

@@ -35,9 +35,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.US);
 
     //todo clean up string usage
-    //todo implement ui detection to determine which menu options to sho for course viewer.
 
-    
     @Override
     public void onReceive(Context context, Intent intent) {
         sharedPreferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);

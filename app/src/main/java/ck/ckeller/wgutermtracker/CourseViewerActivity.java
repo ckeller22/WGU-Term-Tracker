@@ -35,7 +35,6 @@ public class CourseViewerActivity extends AppCompatActivity {
     private static final int ASSESSMENT_LIST_ACTIVITY_CODE = 2;
     private static final int COURSE_NOTE_LIST_ACTIVITY_CODE = 3;
 
-    //todo implement task stack builder to allow back button to take to main activity.
     //todo implement load manager to allow all lists to load data on refresh.
     //todo finish refactoring code to implement intent actions/intent extras instead of uris
 

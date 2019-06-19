@@ -2,6 +2,7 @@ package ck.ckeller.wgutermtracker;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
@@ -88,6 +89,12 @@ public class CourseNoteViewerActivity extends AppCompatActivity {
                 });
                 alertDialogBuilder.setNegativeButton(android.R.string.no, null);
                 alertDialogBuilder.show();
+                break;
+            case R.id.share_course_note:
+                Intent messageIntent = new Intent(Intent.ACTION_SEND);
+                messageIntent.setType("text/plain");
+                messageIntent.putExtra(Intent.EXTRA_TEXT, currentCourseNote.getCourseNoteText());
+                startActivity(messageIntent);
                 break;
         }
         return true;
