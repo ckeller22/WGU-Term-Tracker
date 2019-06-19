@@ -13,6 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:layout_weight="0"
@@ -23,7 +24,8 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_current_term"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_wgu_logo" />
 
     <Button
         android:id="@+id/btn_current_term"
@@ -46,6 +48,7 @@
         android:id="@+id/view_wgu_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/wgu_logo"
         android:cropToPadding="false"
@@ -53,15 +56,17 @@
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/image" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="123dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".5" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_begin="240dp" />
 
 </android.support.constraint.ConstraintLayout>
