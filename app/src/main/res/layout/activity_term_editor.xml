@@ -22,6 +22,7 @@
 
     <include
         android:id="@+id/btn_save"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         layout="@layout/content_term_editor" />
 
 </android.support.design.widget.CoordinatorLayout>

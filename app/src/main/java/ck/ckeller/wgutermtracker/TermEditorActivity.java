@@ -65,9 +65,9 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
 
     private void findViews() {
         editName = findViewById(R.id.edit_text_term_name);
-        editStart = findViewById(R.id.edit_text_term_start);
+        editStart = findViewById(R.id.edit_text_term_start_date);
         editStart.setInputType(InputType.TYPE_NULL);
-        editEnd = findViewById(R.id.edit_text_term_end);
+        editEnd = findViewById(R.id.edit_text_term_end_date);
         editEnd.setInputType(InputType.TYPE_NULL);
     }
 

@@ -55,7 +55,7 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
     }
 
     public void findTextViews() {
-        TextView tvName = findViewById(R.id.tv_term_name);
+        TextView tvName = findViewById(R.id.text);
         TextView tvStart = findViewById(R.id.tv_term_start);
         TextView tvEnd = findViewById(R.id.tv_term_end);
 

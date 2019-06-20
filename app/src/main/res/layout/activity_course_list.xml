@@ -33,6 +33,6 @@
         android:scaleType="center"
         app:fabSize="auto"
         app:maxImageSize="48dp"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:srcCompat="@drawable/ic_add_white_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

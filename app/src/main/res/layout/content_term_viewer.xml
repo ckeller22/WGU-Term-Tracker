@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_term_viewer">
 
     <TextView
-        android:id="@+id/tv_term_name"
+        android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -25,7 +25,7 @@
         android:layout_marginStart="8dp"
         android:text="@string/start_date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_term_name" />
+        app:layout_constraintTop_toBottomOf="@+id/text" />
 
     <TextView
         android:id="@+id/tv_title_end_date"
@@ -36,25 +36,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_start_date" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:onClick="openCourseList"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_end_date"
-        app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
-
-    <TextView
-        android:id="@+id/tv_title_courses"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Courses"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
-
     <TextView
         android:id="@+id/tv_term_start"
         android:layout_width="wrap_content"
@@ -62,15 +43,25 @@
         android:layout_marginStart="8dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/tv_title_start_date"
-        app:layout_constraintTop_toBottomOf="@+id/tv_term_name" />
+        app:layout_constraintTop_toBottomOf="@+id/text" />
 
     <TextView
         android:id="@+id/tv_term_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="14dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/tv_title_end_date"
         app:layout_constraintTop_toBottomOf="@+id/tv_term_start" />
+
+    <Button
+        android:id="@+id/btn_view_course_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:onClick="openCourseList"
+        android:text="View Courses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_end_date" />
 
 </android.support.constraint.ConstraintLayout>
