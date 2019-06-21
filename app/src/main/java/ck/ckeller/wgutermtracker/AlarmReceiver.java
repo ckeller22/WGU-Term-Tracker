@@ -96,14 +96,18 @@ public class AlarmReceiver extends BroadcastReceiver {
         contentIntent.setAction(ADD_ASSESSMENT_ALARM_ACTION);
         PendingIntent activityIntent = PendingIntent.getBroadcast(context, assessmentId, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        //Sets the alarm and sets intent to show notification.
-        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, assessTime.getTimeInMillis(), activityIntent);
+        //Sets the alarm and sets intent to show notification pending validation that the alarm time is in the future.
 
-        //Adds a key value pair in shared preferences to easily determine if an assessment alarm exists.
-        // 1 for true, 0 for false
-        editor.putInt(DataProvider.ASSESSMENT_CONTENT_TYPE + assessmentId, 1);
-        editor.commit();
+        if (!isAlarmInPast(context, assessTime)) {
+            AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, assessTime.getTimeInMillis(), activityIntent);
+
+            //Adds a key value pair in shared preferences to easily determine if an assessment alarm exists.
+            // 1 for true, 0 for false
+            editor.putInt(DataProvider.ASSESSMENT_CONTENT_TYPE + assessmentId, 1);
+            editor.commit();
+        }
+
     }
 
     public void cancelAssessmentAlarm(Context context, int assessmentId) {
@@ -156,34 +160,28 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent activityIntent = PendingIntent.getBroadcast(context, courseId, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //Verifies that the respective alarm time is in the future, toasts to alert the user if it is in the past.
+        //Sets the alarm based off intentAction and sets intent to show notification if alarm time is in the future.
+
+        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         if (intentAction.equals(ADD_START_COURSE_ALARM_ACTION)) {
-            if (courseStartTime.getTimeInMillis() < System.currentTimeMillis()) {
-                Toast.makeText(context, "The alarm must be set for a future time.", Toast.LENGTH_LONG).show();
-                return;
+            if (!isAlarmInPast(context, courseStartTime)) {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, courseStartTime.getTimeInMillis(), activityIntent);
+
+                editor.putInt(DataProvider.COURSE_CONTENT_TYPE + intentAction + courseId, 1);
+                editor.commit();
             }
         }
         if (intentAction.equals(ADD_END_COURSE_ALARM_ACTION)) {
-            if (courseEndTime.getTimeInMillis() < System.currentTimeMillis()) {
-                Toast.makeText(context, "The alarm must be set for a future time.", Toast.LENGTH_LONG).show();
-                return;
+            if (!isAlarmInPast(context, courseEndTime)) {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, courseEndTime.getTimeInMillis(), activityIntent);
+
+                //Adds a key value pair in shared preferences to easily determine if an course alarm exists.
+                // 1 for true, 0 for false
+                editor.putInt(DataProvider.COURSE_CONTENT_TYPE + intentAction + courseId, 1);
+                editor.commit();
             }
 
         }
-
-        //Sets the alarm based off intentAction and sets intent to show notification.
-        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        if (intentAction.equals(ADD_START_COURSE_ALARM_ACTION)) {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, courseStartTime.getTimeInMillis(), activityIntent);
-        } else if (intentAction.equals(ADD_END_COURSE_ALARM_ACTION)) {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, courseEndTime.getTimeInMillis(), activityIntent);
-        }
-
-        //Adds a key value pair in shared preferences to easily determine if an course alarm exists.
-        // 1 for true, 0 for false
-        editor.putInt(DataProvider.COURSE_CONTENT_TYPE + intentAction + courseId, 1);
-        editor.commit();
-
-        Log.d("ALARM", "VALUE: RECEIVED " + courseStartTime.getTime());
 
     }
 
@@ -206,6 +204,14 @@ public class AlarmReceiver extends BroadcastReceiver {
         editor.commit();
     }
 
+    public boolean isAlarmInPast(Context context, Calendar alarmTime) {
+        boolean isAlarmInPast = false;
+        if (alarmTime.getTimeInMillis() < System.currentTimeMillis()) {
+            isAlarmInPast = true;
+            Toast.makeText(context, "The alarm must be set for a future time.", Toast.LENGTH_LONG).show();
+        }
+        return isAlarmInPast;
+    }
 
 
 
