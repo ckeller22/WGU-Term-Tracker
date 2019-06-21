@@ -30,11 +30,12 @@ public class AlarmReceiver extends BroadcastReceiver {
     public final static String ADD_START_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_START_ALARM";
     public final static String ADD_END_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_END_ALARM";
     public final static String CANCEL_START_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_START_ALARM_CANCEL";
-    public final static String CANCEL_END_COURSE_ALARM_ACTION = " ";
+    public final static String CANCEL_END_COURSE_ALARM_ACTION = "ck.ckeller.wgutermtracker.COURSE_END_ALARM_CANCEL";
 
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.US);
 
     //todo clean up string usage
+    //todo actually implement alarm scheduling with actual date instead of placeholder function
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -97,7 +98,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         //Sets the alarm and sets intent to show notification.
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 8 * 1000, activityIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, assessTime.getTimeInMillis(), activityIntent);
 
         //Adds a key value pair in shared preferences to easily determine if an assessment alarm exists.
         // 1 for true, 0 for false
@@ -154,13 +155,28 @@ public class AlarmReceiver extends BroadcastReceiver {
         contentIntent.setAction(intentAction);
         PendingIntent activityIntent = PendingIntent.getBroadcast(context, courseId, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        //Sets the alarm and sets intent to show notification.
-        if (courseStartTime.getTimeInMillis() < System.currentTimeMillis()) {
-            Log.d("ALARM", "VALUE: RECEIVED DATE BEFORE");
+        //Verifies that the respective alarm time is in the future, toasts to alert the user if it is in the past.
+        if (intentAction.equals(ADD_START_COURSE_ALARM_ACTION)) {
+            if (courseStartTime.getTimeInMillis() < System.currentTimeMillis()) {
+                Toast.makeText(context, "The alarm must be set for a future time.", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+        if (intentAction.equals(ADD_END_COURSE_ALARM_ACTION)) {
+            if (courseEndTime.getTimeInMillis() < System.currentTimeMillis()) {
+                Toast.makeText(context, "The alarm must be set for a future time.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
         }
 
+        //Sets the alarm based off intentAction and sets intent to show notification.
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 8 * 1000, activityIntent);
+        if (intentAction.equals(ADD_START_COURSE_ALARM_ACTION)) {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, courseStartTime.getTimeInMillis(), activityIntent);
+        } else if (intentAction.equals(ADD_END_COURSE_ALARM_ACTION)) {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, courseEndTime.getTimeInMillis(), activityIntent);
+        }
 
         //Adds a key value pair in shared preferences to easily determine if an course alarm exists.
         // 1 for true, 0 for false
