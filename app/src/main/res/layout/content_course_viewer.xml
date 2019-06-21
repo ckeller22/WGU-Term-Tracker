@@ -8,17 +8,6 @@
     tools:context=".CourseViewerActivity"
     tools:showIn="@layout/activity_course_viewer">
 
-    <ImageButton
-        android:id="@+id/btn_course_notes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="openCourseNoteList"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_assess_desc"
-        app:srcCompat="@android:drawable/ic_input_get" />
-
     <TextView
         android:id="@+id/lbl_name"
         android:layout_width="match_parent"
@@ -177,34 +166,24 @@
         app:layout_constraintStart_toEndOf="@+id/lbl_desc"
         app:layout_constraintTop_toBottomOf="@+id/tv_mentor_email" />
 
-    <ImageButton
-        android:id="@+id/btn_assess"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+    <Button
+        android:id="@+id/btn_view_assessment_list"
+        android:layout_width="126dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="4dp"
         android:onClick="openAssessmentList"
+        android:text="Assessments"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_desc"
-        app:srcCompat="@android:drawable/ic_input_get" />
+        app:layout_constraintTop_toBottomOf="@+id/lbl_desc" />
 
-    <TextView
-        android:id="@+id/lbl_assess_desc"
+    <Button
+        android:id="@+id/btn_view_course_note_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/assessments"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_assess" />
-
-    <TextView
-        android:id="@+id/lbl_course_notes_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:onClick="openCourseNoteList"
         android:text="Course Notes"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_course_notes" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_view_assessment_list" />
+
 </android.support.constraint.ConstraintLayout>

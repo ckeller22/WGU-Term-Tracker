@@ -35,7 +35,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm a", Locale.US);
 
     //todo clean up string usage
-    //todo actually implement alarm scheduling with actual date instead of placeholder function
 
     @Override
     public void onReceive(Context context, Intent intent) {

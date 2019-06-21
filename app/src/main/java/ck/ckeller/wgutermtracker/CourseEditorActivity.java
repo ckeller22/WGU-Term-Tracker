@@ -107,13 +107,13 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
 
     public void findViews() {
         editName = findViewById(R.id.edit_text_course_name);
-        editStart = findViewById(R.id.edit_text_course_start);
+        editStart = findViewById(R.id.edit_text_course_start_date);
         editStart.setInputType(InputType.TYPE_NULL);
-        editEnd = findViewById(R.id.edit_text_course_end);
+        editEnd = findViewById(R.id.edit_text_course_end_date);
         editEnd.setInputType(InputType.TYPE_NULL);
         editMentor = findViewById(R.id.edit_text_course_mentor);
-        editMentorPhone = findViewById(R.id.edit_text_mentor_phone);
-        editMentorEmail = findViewById(R.id.edit_text_mentor_email);
+        editMentorPhone = findViewById(R.id.edit_text_course_mentor_phone);
+        editMentorEmail = findViewById(R.id.edit_text_course_mentor_email);
         editDesc = findViewById(R.id.edit_text_course_desc);
 
         String[] courseStatus = getResources().getStringArray(R.array.course_status_types);
