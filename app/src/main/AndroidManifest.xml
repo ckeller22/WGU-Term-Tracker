@@ -37,7 +37,8 @@
         <activity
             android:name=".CourseEditorActivity"
             android:label="@string/title_activity_course_editor"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".CourseViewerActivity"
             android:label="@string/title_activity_course_viewer"

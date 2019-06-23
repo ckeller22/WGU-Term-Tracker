@@ -47,6 +47,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -74,6 +76,7 @@
             android:id="@+id/edit_text_course_start_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="false"
             android:hint="Start Date" />
     </android.support.design.widget.TextInputLayout>
 
@@ -93,6 +96,7 @@
             android:id="@+id/edit_text_course_end_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="false"
             android:hint="End Date" />
     </android.support.design.widget.TextInputLayout>
 
@@ -173,6 +177,7 @@
         android:layout_width="331dp"
         android:layout_height="48dp"
         android:layout_marginEnd="8dp"
+        android:focusedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout10" />
 
