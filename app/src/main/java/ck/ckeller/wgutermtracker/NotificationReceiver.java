@@ -93,7 +93,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         //Set value of assessmentId in shared preferences to 0 once notification is disabled.
         editor.putInt(DataProvider.COURSE_CONTENT_TYPE + intentAction + courseId, 0);
         editor.commit();
-        Log.d("ALARM", "VALUE: RECEIVED " + courseId);
     }
 
 

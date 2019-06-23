@@ -51,7 +51,6 @@ public class CourseNoteListActivity extends AppCompatActivity implements LoaderM
     public void parseCourse() {
         Intent intent = getIntent();
         courseId = intent.getIntExtra(DataProvider.COURSE_CONTENT_TYPE, 0);
-        Log.d("value", "value: " + courseId);
     }
 
     public void populateCourseNoteList() {

@@ -9,37 +9,35 @@
     tools:showIn="@layout/activity_main">
 
     <Button
-        android:id="@+id/btn_all_terms"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="0"
-        android:background="@color/colorPrimaryLight"
-        android:onClick="openTermList"
-        android:text="@string/all_terms"
-        android:textColor="@color/colorText"
-        app:layout_constraintBottom_toTopOf="@+id/btn_current_term"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
         android:id="@+id/btn_current_term"
-        android:layout_width="0dp"
+        android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:layout_weight="0"
-        android:background="@color/colorPrimaryLight"
+        android:background="@android:drawable/btn_default"
+        android:backgroundTint="@color/colorAccent"
         android:onClick="openCurrentTerm"
         android:text="@string/current_term"
         android:textColor="@color/colorText"
+        app:layout_constraintBottom_toTopOf="@+id/btn_all_terms"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_all_terms"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="6dp"
+        android:layout_weight="0"
+        android:backgroundTint="@color/colorAccent"
+        android:onClick="openTermList"
+        android:text="@string/all_terms"
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView

@@ -76,8 +76,6 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
             parseCourse();
             populateFields();
         }
-        Log.d("string", "value: " + courseId);
-        Log.d("string", "value: " + courseTermId);
 
     }
 

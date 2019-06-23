@@ -4,8 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -18,7 +16,6 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class AssessmentEditorActivity extends AppCompatActivity implements View.OnClickListener {
@@ -45,15 +42,6 @@ public class AssessmentEditorActivity extends AppCompatActivity implements View.
         setContentView(R.layout.activity_assessment_editor);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         findTextViews();
         initDateTimePicker();
@@ -84,7 +72,7 @@ public class AssessmentEditorActivity extends AppCompatActivity implements View.
         editName = findViewById(R.id.edit_text_assess_name);
         editTime = findViewById(R.id.edit_text_assess_time);
         editTime.setInputType(InputType.TYPE_NULL);
-        editDesc = findViewById(R.id.edit_text_assess_desc);
+        editDesc = findViewById(R.id.edit_text_asses_desc);
     }
 
 

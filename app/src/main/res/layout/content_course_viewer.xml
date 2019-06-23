@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="Term Name"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         app:layout_constraintStart_toStartOf="parent"
@@ -158,31 +157,37 @@
 
     <TextView
         android:id="@+id/tv_desc"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/lbl_desc"
-        app:layout_constraintTop_toBottomOf="@+id/tv_mentor_email" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_desc" />
 
     <Button
         android:id="@+id/btn_view_assessment_list"
         android:layout_width="126dp"
         android:layout_height="47dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="6dp"
+        android:backgroundTint="@color/colorAccent"
         android:onClick="openAssessmentList"
         android:text="Assessments"
+        android:textColor="@color/colorText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_desc" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_desc" />
 
     <Button
         android:id="@+id/btn_view_course_note_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="6dp"
+        android:backgroundTint="@color/colorAccent"
         android:onClick="openCourseNoteList"
         android:text="Course Notes"
+        android:textColor="@color/colorText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_view_assessment_list" />
 

@@ -26,7 +26,6 @@ public class AssessmentListActivity extends AppCompatActivity implements LoaderM
     private int ASSESSMENT_VIEWER_ACTIVITY_CODE = 2;
 
     private CursorAdapter cursorAdapter;
-    //todo fix font and list spacing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,6 @@ public class AssessmentListActivity extends AppCompatActivity implements LoaderM
         setSupportActionBar(toolbar);
 
         parseCourse();
-        Log.d("test", "value: " + courseId);
         populateAssessmentList();
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -84,8 +82,6 @@ public class AssessmentListActivity extends AppCompatActivity implements LoaderM
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.d("cursor", "value of courseId" + courseId);
-
         return new CursorLoader(this, DataProvider.ASSESSMENTS_URI, DBOpenHelper.ASSESSMENTS_COLUMNS,
                 DBOpenHelper.ASSESSMENT_COURSE_ID + " = " + courseId, null, null);
     }

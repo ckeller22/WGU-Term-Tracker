@@ -25,10 +25,6 @@ public class TermListActivity extends AppCompatActivity implements LoaderManager
     public static final int TERM_VIEWER_ACTIVITY_CODE = 1;
     public static final int TERM_EDITOR_CODE = 2;
 
-    //todo Implement textInputLayout for editors.
-    //todo implement unified color scheme
-    //todo fix issues with consistencies with dp placements
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
