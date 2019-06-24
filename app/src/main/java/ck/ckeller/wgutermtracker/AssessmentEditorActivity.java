@@ -168,11 +168,7 @@ public class AssessmentEditorActivity extends AppCompatActivity implements View.
         if (editDesc.getText().length() == 0) {
             message += "Please enter a description. \n";
         }
-        if (message.length() > 0) {
-            isValid = false;
-        } else {
-            isValid = true;
-        }
+        isValid = message.length() <= 0;
         return isValid;
     }
 

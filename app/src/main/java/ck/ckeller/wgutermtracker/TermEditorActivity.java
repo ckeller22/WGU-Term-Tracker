@@ -141,11 +141,7 @@ public class TermEditorActivity extends AppCompatActivity implements View.OnClic
                 message += "Planned end date must not be before the start date.\n";
             }
         }
-        if (message.length() > 0) {
-            isValid = false;
-        } else {
-            isValid = true;
-        }
+        isValid = message.length() <= 0;
         return isValid;
     }
 

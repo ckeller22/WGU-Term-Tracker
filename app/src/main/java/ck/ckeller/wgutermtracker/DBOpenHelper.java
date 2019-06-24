@@ -135,4 +135,3 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 }
-;

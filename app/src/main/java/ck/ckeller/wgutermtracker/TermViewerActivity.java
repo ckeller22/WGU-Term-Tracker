@@ -118,11 +118,7 @@ public class TermViewerActivity extends AppCompatActivity implements LoaderManag
     public boolean termDeleteValidation() {
         Cursor cursor = getContentResolver().query(DataProvider.COURSES_URI, DBOpenHelper.COURSES_COLUMNS, DBOpenHelper.COURSE_TERM_ID + " = " + termId,
                 null, null, null);
-        if (cursor.moveToFirst()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !cursor.moveToFirst();
 
     }
 

@@ -18,7 +18,7 @@
         android:layout_marginBottom="8dp"
         android:background="@null"
         android:ems="10"
-        android:gravity="top|left"
+        android:gravity="start"
         android:inputType="textMultiLine|text"
         android:overScrollMode="always"
         android:scrollbarStyle="insideInset"
@@ -28,5 +28,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlCompat" />
 </android.support.constraint.ConstraintLayout>

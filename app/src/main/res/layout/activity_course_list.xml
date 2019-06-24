@@ -29,7 +29,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:adjustViewBounds="false"
-        android:onClick="newCourse"
         android:scaleType="center"
         app:fabSize="auto"
         app:maxImageSize="48dp"

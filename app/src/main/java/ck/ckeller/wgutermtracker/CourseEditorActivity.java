@@ -230,11 +230,7 @@ public class CourseEditorActivity extends AppCompatActivity implements View.OnCl
         if (editDesc.getText().length() == 0) {
             message += "Please enter a course description\n";
         }
-        if (message.length() > 0) {
-            isValid = false;
-        } else {
-            isValid = true;
-        }
+        isValid = message.length() <= 0;
         return isValid;
     }
 
