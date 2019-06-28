@@ -1,5 +1,5 @@
 # Mobile Appilcation Development - WGU 196
-Android application intended to allow WGU students to plan their terms and course selections. Allows the user to take notes for courses and schedule alerts for assessments. Utilizes a SQLite database to hold term, course, and assessment information, as well as optional course notes.
+Android application intended to allow WGU students to plan their terms and course selections. Allows the user to take notes for courses and schedule alerts for assessments. Utilizes a SQLite database to hold term, course, and assessment information, as well as optional course notes. The application also implements material design.
 
 ## Main Functionalities
 - Provide an overview of a students current/planned term and/or courses.
